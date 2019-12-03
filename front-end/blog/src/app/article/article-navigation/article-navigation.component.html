@@ -1,0 +1,63 @@
+<div class="article-navigation" [attr.text]="slideState">
+
+    <div class="navigation-main-container" [style]="scrollWidthVariable | safeContent: 'style'" *ngIf="!sideNavigation || (sideNavigation && open)" [@slide]="slideState">
+        <nav class="navigation-main">
+
+            <div class="navigation-main-title-container">
+                <h1 class="navigation-main-title">{{ currentCategory && currentCategory.toUpperCase() }}</h1>
+            </div>
+
+            <aside class="navigation-main-content-container">
+
+                <div class="content-profile" *ngIf="owner">
+                    <div class="content-profile-image">
+                        <img [src]="owner.profileImagePath" />
+                    </div>
+                    <div class="content-profile-text-container">
+                        <h4 class="content-profile-nickname">{{ owner.nickname }}</h4>
+                        <a [href]="'mailto:' + owner.email" class="content-profile-email">{{ owner.email }}</a>
+                        <p class="content-profile-introduction">{{ owner.introduction }}</p>
+                    </div>
+                    <div class="content-profile-link-container">
+                        <a class="content-profile-link" *ngFor="let link of profileLink" [href]="link.uri" [target]="link.target" [title]="link.title">
+                            <fa-icon [icon]="link.icon"></fa-icon>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="content-category-container">
+                    <ul class="content-category-list">
+                        <li class="content-category-item" *ngFor="let category of categoryList">
+                            <a class="content-category-link" [routerLink]="'/' + category">
+                                <p class="content-category-text">{{ category }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <footer class="content-footer">
+                    <p class="content-footer-context">ⓒ 2019. SeemsPyo all rights reserved.</p>
+                </footer>
+
+            </aside>
+            
+        </nav>
+    </div>
+
+    <div class="navigation-toggler-container" *ngIf="sideNavigation">
+        <button class="navigation-toggler" type="button"
+            (pointerenter)="toggleButtonStyle($event)"
+            (pointerleave)="toggleButtonStyle($event)"
+            (click)="toggleNavigation()"
+            [class.pointer-in-bounds]="pointerInBounds"
+            [attr.flip]="!open">
+            <svg class="morph-icon" viewBox="0 0 30 60">
+                <path [attr.d]="pointerInBounds ? 'M0,0c0,0,22.3,9.3,22.3,30S0,60,0,60V0z' : 'M0,0c0,0,15,9.3,15,30S0,60,0,60V0z'" />
+            </svg>
+            <svg class="arrow-icon" viewBox="0 0 24 24">
+                <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
+            </svg>
+        </button>
+    </div>
+
+</div>

@@ -1,0 +1,83 @@
+<div class="blog-article-write">
+
+    <div class="write-form-container" [formGroup]="formGroup">
+
+        <button class="form-status-button" type="button" (click)="toggleStatus()" [title]="status ? 'Public' : 'Private'">
+            <fa-icon [icon]="maskIcon"></fa-icon>
+        </button>
+
+        <div class="form-title-container">
+            <input blogInput class="form-title-input" type="text" name="title" formControlName="title" [hasError]="validator('title')" placeholder="Title" />
+        </div>
+
+        <div class="form-category-container">
+            <input blogInput class="form-category-input"
+                #categoryInput
+                type="text"
+                name="category"
+                formControlName="category"
+                (focus)="toggleCategoryFocus($event)"
+                (blur)="toggleCategoryFocus($event)"
+                (keydown)="selectCategory($event);blurPolyfill($event);"
+                [hasError]="validator('category')"
+                placeholder="Category"
+            />
+            <ul class="form-category-list" *ngIf="categoryFocus">
+                <li class="form-category-item" *ngFor="let category of categoryList" [class.selected]="category.selected" (click)="setCategory(category.name)">
+                    <p class="form-category-item-title">{{ category.name }}</p>
+                </li>
+            </ul>
+        </div>
+
+        <editor formControlName="editorContent" [init]="editorConfig"></editor>
+
+        <div class="form-image-container" *ngIf="images.length">
+            <div class="form-image-list">
+                <div class="form-image-item" *ngFor="let location of images">
+                    <img [src]="location" title="click to copy" (click)="copy(location)" />
+                    <button class="form-image-item-delete" type="button" (click)="deleteImage(location, $event)">
+                        <fa-icon [icon]="trashIcon"></fa-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-tag-container" (submit)="addTag($event)">
+            <form class="form-tag">
+                <input blogInput class="form-tag-input" type="text" name="tag" [(ngModel)]="tag" placeholder="Tag" />
+                <button blogButton class="form-tag-submit" type="submit">Add tag</button>
+            </form>
+            <div class="form-tag-list" *ngIf="tags.length">
+                <div class="form-tag-item" *ngFor="let tag of tags">
+                    <span class="form-tag-item-context">{{ tag }}</span>
+                    <button class="form-tag-item-delete" (click)="removeTag(tag)">
+                        <fa-icon [icon]="trashIcon"></fa-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-button-container">
+            <ng-container *ngIf="!modify; else ModifyButtonBlock">
+                <button blogButton class="form-button" type="button" (click)="write()" [disabled]="!writable">Write</button>
+            </ng-container>
+            <ng-template #ModifyButtonBlock>
+                <button blogButton class="form-button" type="button" (click)="update()" [disabled]="!writable">Update</button>
+                <button blogButton class="form-button" type="button" (click)="confirmDelete()">Delete</button>
+            </ng-template>
+        </div>
+
+    </div>
+
+</div>
+
+
+<ng-template #confirmTemplate>
+    <div class="confirm-delete">
+        <p class="confirm-delete-text">Once deleted, the article cannot be restored.<br/>Sure to proceed?</p>
+        <div class="confirm-delete-button-container">
+            <button blogButton class="confirm-delete-button" (click)="delete()">Yes</button>
+            <button blogButton class="confirm-delete-button" (click)="dismissConfirm()">No</button>
+        </div>
+    </div>
+</ng-template>

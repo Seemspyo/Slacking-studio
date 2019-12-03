@@ -1,0 +1,87 @@
+@import 'src/@variables';
+
+
+:host {
+    width: 100%;
+    display: block;
+}
+
+.blog-admin-dashboard {
+    width: 100%;
+    max-width: 1056px;
+    margin: 12px auto;
+
+    h2.dashboard-title {
+        font-size: 1.6rem;
+        color: $EMERALD-BLUE;
+        padding-left: 8px;
+    }
+
+    .dashboard-card-container {
+        margin-top: 12px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .dashboard-card {
+            width: 240px; height: 240px;
+            background-color: #fff;
+            margin: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(#000, .2);
+            transition: box-shadow 300ms;
+
+            &:hover {
+                box-shadow: 0 15px 30px rgba(#000, .2);
+            }
+
+            span.dashboard-card-icon {
+                $SIZE: 42px;
+                width: $SIZE; height: $SIZE;
+                border-radius: $SIZE / 2;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 30px;
+                font-size: 1.1rem;
+            }
+
+            h3.dashboard-card-data {
+                color: #333;
+                font-size: 2.6rem;
+                margin-top: 12px;
+            }
+
+            h5.dashboard-card-label {
+                margin-top: 6px;
+                font: {
+                    size: 0.9rem;
+                    weight: 500;
+                }
+                color: #999;
+            }
+
+            $colorMap: (
+                "overview-user": #339CFF,
+                "overview-article": #AA00B9,
+                "overview-view": #FCD70A,
+                "overview-comment": #00C91B
+            );
+
+            @each $id, $color in $colorMap {
+                &##{ $id } {
+                    span.dashboard-card-icon {
+                        background-color: rgba($color, .2);
+                        color: $color;
+                    }
+                }
+            }
+
+        }
+
+    }
+
+}

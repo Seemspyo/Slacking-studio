@@ -1,0 +1,241 @@
+@import '../../modules/button/button.module.scss';
+@import 'src/mixins/spin-loading.mixin.scss';
+
+
+$LOGO-CONTAINER-SIZE: 80px;
+@include buttonStyle();
+
+.blog-account-signin {
+    width: 100%;
+    margin-bottom: 60px;
+
+    .signin-box {
+        width: 100%;
+        max-width: 340px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        position: relative;
+        background-color: darken($EMERALD-BLUE, 10%);
+        border-radius: 6px;
+        box-shadow: 0 0 12px rgba(0,0,0,.4);
+
+        .signin-logo-container {
+            display: flex;
+            flex-direction: column;
+
+            a.signin-logo {
+                width: $LOGO-CONTAINER-SIZE; height: $LOGO-CONTAINER-SIZE;
+                border-radius: $LOGO-CONTAINER-SIZE / 2;
+                overflow: hidden;
+                margin: 12px auto;
+                background-color: $EMERALD-BLUE;
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
+    
+                img {
+                    height: 80%;
+                    margin-right: 12px;
+                }
+            }
+
+            .signin-logo-text {
+                color: $EMERALD-BLUE;
+                text-align: center;
+                font-size: 0.9rem;
+                display: block;
+
+                &:not(:first-child) {
+                    margin-top: 8px;
+                }
+
+            }
+
+        }
+        
+        .signin-form-container {
+            $BUTTON-SIZE: 40px;
+
+            margin: {
+                top: 40px;
+                bottom: 12px;
+            }
+            width: 100%; height: $BUTTON-SIZE;
+            border-radius: $BUTTON-SIZE / 2;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            cursor: text;
+            position: relative;
+
+            button {
+                cursor: pointer;
+            }
+
+            button.signin-main-button {
+                height: 100%;
+                border-radius: $BUTTON-SIZE / 2;
+                font: {
+                    size: 1.2rem;
+                    weight: 300;
+                }
+            }
+
+            .signin-form-left {
+                width: $BUTTON-SIZE; height: $BUTTON-SIZE;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+
+                button.signin-form-button {
+                    width: calc(100% - 6px); height: calc(100% - 6px);
+                    border-radius: $BUTTON-SIZE / 2;
+                    display: flex;
+                    align-items: center;
+                    box-shadow: none;
+                    font-size: 1.8rem;
+                    overflow: hidden;
+
+                    fa-icon {
+                        margin-left: 24%;
+                    }
+
+                    img {
+                        width: 100%;
+                    }
+
+                }
+
+            }
+
+            form.signin-form {
+                width: 100%; height: 100%;
+                display: flex;
+                align-items: center;
+
+                input.signin-form {
+                    width: 100%;
+                    padding: 0 6px;
+                    font-size: 0.9rem;
+                    background-color: transparent;
+                }
+
+            }
+
+            .signin-form-right {
+                flex-shrink: 0;
+                height: 100%;
+                display: flex;
+                align-items: center;
+
+                button.signin-form-button {
+                    height: calc(100% - 4px);
+                    border-radius: $BUTTON-SIZE / 2;
+                    margin-right: 2px;
+                    padding: 0 12px;
+                }
+
+            }
+
+            &[step="0"] {
+                background-color: transparent;
+            }
+
+        }
+
+        .signin-signup-container {
+            width: 100%; height: 16px;
+            position: relative;
+
+            .signin-signup {
+                width: 100%;
+                font-size: 0.9rem;
+                display: flex;
+                align-items: baseline;
+                justify-content: flex-end;
+
+                p.signin-signup-text {
+                    color: $EMERALD-BLUE;
+                }
+    
+                a.signin-signup-link {
+                    color: $SAPPIRE-BLUE;
+                    text-decoration: underline;
+                    margin: {
+                        left: 6px;
+                        right: 12px;
+                    }
+
+                    &:hover {
+                        color: lighten($SAPPIRE-BLUE, 10%);
+                    }
+
+                }
+
+            }
+
+        }
+
+        @include spinLoadingStyle($LOGO-CONTAINER-SIZE, 12px, 5px, $DEEP-ORANGE);
+
+        &.in-process {
+
+            .signin-form-container {
+                position: relative;
+                overflow: hidden;
+                pointer-events: none;
+                touch-action: none;
+
+                &::after {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 0; right: 0; bottom: 0; left: 0;
+                    width: 100%; height: 100%;
+                    background-color: rgba(255,255,255,.6);
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+.resend-mail-container {
+    display: flex;
+    align-items: center;
+
+    .resend-mail-button-container {
+        display: flex;
+        margin-left: 12px;
+
+        button.resend-mail-button {
+            width: 60px; height: 34px;
+
+            &:not(:first-of-type) {
+                margin-left: 8px;
+            }
+
+        }
+
+    }
+
+}
+
+
+@media only screen and (max-width: 390px) {
+
+    .blog-account-signin {
+
+        .signin-box {
+            max-width: 90%;
+        }
+
+    }
+
+}

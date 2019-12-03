@@ -1,0 +1,21 @@
+<div class="blog-admin-dashboard">
+
+    <h2 class="dashboard-title">Overview</h2>
+
+    <div class="dashboard-card-container">
+        <ng-container *ngFor="let info of infoList">
+            <div class="dashboard-card" [id]="info.id" matRipple matRippleColor="rgba(180,180,180,.1)">
+
+                <span class="dashboard-card-icon">
+                    <fa-icon [icon]="info.icon"></fa-icon>
+                </span>
+
+                <h3 class="dashboard-card-data">{{ info.data | numberSymbol }}</h3>
+
+                <h5 class="dashboard-card-label">{{ info.label }}</h5>
+
+            </div>
+        </ng-container>
+    </div>
+
+</div>

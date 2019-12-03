@@ -1,0 +1,124 @@
+<div class="blog-account-my">
+
+    <div class="my-box-container">
+
+        <nav class="box-navigation">
+            <button class="box-navigation-button" type="button" *ngFor="let button of buttonList" (click)="navigate(button)" [class.active-button]="button.id === tabId">
+                <fa-icon [icon]="button.icon"></fa-icon>
+                <h5 class="box-navigation-button-title">{{ button.title }}</h5>
+            </button>
+        </nav>
+
+        <div class="my-box" [ngSwitch]="tabId">
+            <ng-container *ngSwitchCase="'account'">
+                <ng-container *ngTemplateOutlet="AccountTab"></ng-container>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'bookmark'">
+                <ng-container *ngTemplateOutlet="BookmarkTab"></ng-container>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'comment'">
+                <ng-container *ngTemplateOutlet="CommentTab"></ng-container>
+            </ng-container>
+        </div>
+
+    </div>
+
+</div>
+
+
+<ng-template #AccountTab>
+    <div class="my-box-account" [class.in-process]="processing">
+
+        <div class="box-image-container process-item-container">
+            <a routerLink="/" class="box-image process-item" title="Home">
+                <img [src]="profileImagePath" />
+            </a>
+        </div>
+
+        <p class="box-date">{{ userInfo && getDateString({ createdAt: userInfo.date.joinedAt, lastUpdatedAt: userInfo.date.lastLoginAt }, null, 'Last login', 'MMM d, yyyy HH:mm:ss') }}</p>
+
+        <form class="box-form" (submit)="update($event)">
+
+            <div class="box-form-input-container">
+                <input class="box-form-input" blogFileInput type="file" placeholder="Profile Image" accept="image/*" (change)="onProfileImageSelect()" />
+            </div>
+
+            <div class="box-form-input-container" *ngFor="let item of forms">
+                <input class="box-form-input" blogInput [type]="item.type" [placeholder]="item.title" [hasError]="(item.hasError && item.hasError()) || defaultValidator(item.controlKey)" [formControl]="formGroup.get(item.controlKey)" />
+            </div>
+
+            <div class="box-form-input-container">
+                <textarea class="box-form-input" blogInput placeholder="Introduce yourself" [formControl]="formGroup.get('introduction')"></textarea>
+            </div>
+
+            <div class="box-form-input-container">
+                <button class="box-form-submit" blogButton type="submit" [disabled]="!updatable">Update</button>
+            </div>
+
+            <button class="box-form-quit" (click)="confirmDelete()" type="button">Quit slacking</button>
+
+        </form>
+
+    </div>
+</ng-template>
+
+<ng-template #BookmarkTab>
+    <div class="my-box-bookmark">
+
+        <button blogButton class="box-button" type="button" (click)="refresh()">
+            <fa-icon [icon]="refreshIcon"></fa-icon>
+        </button>
+
+        <div class="box-list-container" [class.list-processing]="processing">
+            <ul class="box-list">
+                <li class="box-item" *ngFor="let bookmark of bookmarkList">
+                    <div class="box-item-content-container">
+                        <a class="box-item-title" [routerLink]="bookmark.link">{{ bookmark.title }}</a>
+                        <span class="box-item-date">{{ bookmark.date }}</span>
+                    </div>
+                    <button class="box-item-bookmark" type="button" (click)="toggleBookmark(bookmark)">
+                        <fa-icon [icon]="getBookmarkIcon(bookmark)"></fa-icon>
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</ng-template>
+
+<ng-template #CommentTab>
+    <div class="my-box-comment">
+
+        <button blogButton class="box-button" type="button" (click)="refresh()">
+            <fa-icon [icon]="refreshIcon"></fa-icon>
+        </button>
+
+        <div class="box-list-container" [class.list-processing]="processing">
+            <ul class="box-list">
+                <li class="box-item" *ngFor="let comment of commentList">
+                    <div class="box-item-content-container">
+                        <a class="box-item-title" [routerLink]="comment.link">{{ comment.articleTitle }}</a>
+                        <span class="box-item-date">{{ comment.date }}</span>
+                        <p class="box-item-content">{{ comment.content }}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</ng-template>
+
+<ng-template #DeleteConfirm>
+    <div class="account-my-delete-confirm">
+        <div class="confirm-content">
+            <p class="confirm-content-text">Once leave, your data cannot be restored.</p>
+            <input class="confirm-content-input" type="text" placeholder="Enter Nickname" [(ngModel)]="userNickname" />
+        </div>
+        <div class="confirm-button-container">
+            <button blogButton class="confirm-button" type="button" (click)="deleteUser()" [disabled]="nicknameMismatch">Confirm</button>
+            <button blogButton class="confirm-button" type="button" (click)="dismissConfirm()">Cancel</button>
+        </div>
+    </div>
+</ng-template>

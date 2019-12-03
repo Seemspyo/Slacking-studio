@@ -1,0 +1,61 @@
+<div class="blog-account-signin">
+
+    <div class="signin-box" [class.in-process]="processing">
+
+        <div class="signin-logo-container process-item-container">
+            <a routerLink="/" class="signin-logo process-item" title="Home">
+                <img src="/assets/images/logo.png" />
+            </a>
+            <h5 class="signin-logo-text">Welcome!</h5>
+            <p class="signin-logo-text">We could always use more slackers.</p>
+        </div>
+        
+        <div class="signin-form-container" [attr.step]="step" (click)="focusOnInput()">
+
+            <button @mainButton blogButton class="signin-main-button" type="button" *ngIf="step === 0" (click)="onMainButtonClick()">{{ signed ? 'Sign out' : 'Sign in' }}</button>
+
+            <ng-container *ngIf="step !== 0">
+
+                <div class="signin-form-left" (click)="preventPropagation($event)">
+                    <button blogButton class="signin-form-button" type="button" (click)="go(-1)">
+                        <fa-icon [icon]="angleIcon" *ngIf="step === 1"></fa-icon>
+                        <img [src]="profileImagePath" *ngIf="step === 2" />
+                    </button>
+                </div>
+
+                <form id="signInForm" class="signin-form" (submit)="onSubmit($event)">
+                    <input name="formInput" #formInput class="signin-form" [type]="formType" [(ngModel)]="formValue" [placeholder]="'Enter ' + formLabel" />
+                </form>
+
+                <div class="signin-form-right" (click)="preventPropagation($event)">
+                    <button blogButton class="signin-form-button" type="submit" form="signInForm">
+                        <span *ngIf="step === 1">Next</span>
+                        <span *ngIf="step === 2">Sign in</span>
+                    </button>
+                </div>
+
+            </ng-container>
+
+        </div>
+
+        <div class="signin-signup-container">
+            <div class="signin-signup" *ngIf="step === 0 && !signed" @fade>
+                <p class="signin-signup-text">Want some slack?</p>
+                <a class="signin-signup-link" routerLink="/account/sign-up">Sign up</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<ng-template #ResendMailTemplate>
+    <div class="resend-mail-container">
+        <p class="resend-mail-text">Your Email address has not verified yet.<br/>Do you want to receive an Email again?</p>
+        <div class="resend-mail-button-container">
+            <button class="resend-mail-button" blogButton type="button" (click)="sendVerificationMail()">Yes</button>
+            <button class="resend-mail-button" blogButton type="button" (click)="dismissStickBar()">No</button>
+        </div>
+    </div>
+</ng-template>

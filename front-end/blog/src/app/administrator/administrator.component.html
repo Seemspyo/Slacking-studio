@@ -1,0 +1,19 @@
+<main class="blog-admin">
+
+    <div class="blog-admin-header-container">
+        <blog-administrator-header (navigation-toggle)="toggleNavigation()"></blog-administrator-header>
+    </div>
+
+    <div class="blog-admin-body-container">
+
+        <div class="blog-admin-navigation-container" *ngIf="navExpanded" @slide [@.disabled]="!initialized">
+            <blog-administrator-navigation></blog-administrator-navigation>
+        </div>
+
+        <div class="blog-admin-content-container">
+            <router-outlet></router-outlet>
+        </div>
+
+    </div>
+
+</main>

@@ -1,0 +1,90 @@
+@import '../../modules/button/button.module.scss';
+
+
+:host {
+    display: block;
+    width: 100%; height: 100%;
+}
+
+header.blog-admin-header {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0 5px rgba(0,0,0,.2);
+    position: relative;
+    z-index: 9;
+    background-color: #fff;
+
+    $BUTTON-SIZE: 36px;
+
+    button.header-nav-button {
+        color: $SAPPIRE-BLUE;
+        margin-left: 12px;
+        width: $BUTTON-SIZE; height: $BUTTON-SIZE;
+        border-radius: $BUTTON-SIZE / 2;
+        font-size: 1.3rem;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    .header-title-container {
+        display: flex;
+        color: $SAPPIRE-BLUE;
+        font: {
+            size: 1.1rem;
+            weight: 600;
+        }
+        margin-left: 12px;
+
+        > * {
+            color: inherit;
+        }
+
+        span.header-title {
+            margin: 0 0.2em;
+        }
+
+    }
+
+    a.header-user-button {
+        width: $BUTTON-SIZE; height: $BUTTON-SIZE;
+        border-radius: $BUTTON-SIZE / 2;
+        overflow: hidden;
+        margin: {
+            left: auto;
+            right: 12px;
+        }
+        background-color: rgba($SAPPIRE-BLUE, .6);
+
+        .header-user-profile-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%; height: 100%;
+
+            img {
+                width: 100%;
+            }
+
+        }
+
+    }
+
+}
+
+
+@media only screen and (max-width: 360px) {
+
+    header.blog-admin-header {
+
+        .header-title-container {
+            
+            .header-title:not(:last-child) {
+                display: none;
+            }
+
+        }
+
+    }
+
+}

@@ -1,0 +1,52 @@
+@mixin spinLoadingStyle($container-size, $distance, $ripple-width, $color) {
+
+    @keyframes rotate {
+        from {
+            transform: rotate(90deg);
+        }
+        to {
+            transform: rotate(450deg);
+        }
+    }
+
+    &.in-process {
+
+        .process-item-container {
+            position: relative;
+
+            &::before {
+                $ripple-size: $container-size + $ripple-width * 2;
+
+                content: '';
+                display: block;
+                position: absolute;
+                top: $distance - $ripple-width; right: 0; left: 0;
+                margin: auto;
+                width: $ripple-size; height: $ripple-size;
+                border-radius: $ripple-size / 2;
+                z-index: 0;
+                box-sizing: border-box;
+                opacity: 0.8;
+                border: {
+                    style: solid;
+                    width: $ripple-width;
+                    color: $color transparent $color transparent;
+                }
+                animation: {
+                    name: rotate;
+                    duration: 1200ms;
+                    iteration-count: infinite;
+                    timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+                }
+
+            }
+
+            .process-item {
+                z-index: 1;
+            }
+
+        }
+
+    }
+
+}

@@ -1,0 +1,134 @@
+@import '../../modules/input/input.module.scss';
+
+
+@include inputStyle();
+
+::ng-deep mat-dialog-container:not(.nothing) {
+    padding: 0;
+}
+
+.blog-admin-user {
+    width: 100%;
+
+    .user-list-container {
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(#000,.2);
+        overflow-x: auto;
+    }
+
+}
+
+ol.user-list {
+    width: 100%;
+    min-width: 836px;
+
+    li.user-item {
+        width: 100%; height: 52px;
+
+        &:not(:last-of-type) {
+            border-bottom: solid 1px #ccc;
+        }
+
+        &.header-item {
+            background-color: $SAPPIRE-BLUE;
+
+            ul.user-item-info-list {
+
+                li.user-item-info {
+                    height: 100%;
+
+                    button.user-item-info-button {
+                        width: 100%; height: 100%;
+                        background-color: transparent;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        font-size: 0.9rem;
+                        color: #fff;
+
+                        fa-icon {
+                            margin-left: auto;
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        ul.user-item-info-list {
+            width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+
+            li.user-item-info {
+                padding: 0 12px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 0.8rem;
+
+                $widthList: 16%, 26%, 8%, 20%, 20%, 10%;
+        
+                @for $i from 1 through length($widthList) {
+                    &:nth-of-type(#{ $i }) {
+                        width: nth($widthList, $i);
+                    }
+                }
+
+                &:nth-of-type(6) {
+                    text-align: center;
+                }
+
+                button.user-item-info-button {
+                    width: 20px; height: 20px;
+                    background-color: transparent;
+                    color: $SAPPIRE-BLUE;
+                    cursor: pointer;
+
+                    &.delete-icon {
+                        color: $DEEP-ORANGE;
+                    }
+
+                    &:not(:first-of-type) {
+                        margin-left: 4px;
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+form.user-form {
+    background-color: darken($EMERALD-BLUE, 10%);
+    padding: 24px;
+    width: 340px;
+    max-width: 100%;
+
+    .user-form-input-container {
+        width: 100%;
+
+        &:not(:first-of-type) {
+            margin-top: 12px;
+        }
+
+        button.user-form-submit {
+            margin: 0 auto;
+            display: block;
+            background-color: transparent;
+            color: $SAPPIRE-BLUE;
+            text-decoration: underline;
+            font-size: 1rem;
+        }
+
+    }
+
+}

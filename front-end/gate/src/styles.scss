@@ -1,0 +1,16 @@
+@import url(//cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css); // Korean
+@import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700); // Gate
+@import url(https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,500,500i,700,700i); // Blog
+@import url(https://fonts.googleapis.com/css?family=Mali:200,300,400,500,600,700&display=swap); // Playground
+
+* { margin: 0; border: 0; padding: 0; box-sizing: border-box; &:focus { outline: none; } }
+:root { width: 100%; height: 100%; overflow: { x: hidden; y: auto; } }
+body { width: 100%; height: 100%; }
+a { text-decoration: none; color: black; }
+li { list-style-type: none; }
+input, select, textarea, button { font-family: inherit; }
+
+.n-b-gothic { font-family: 'Nanum Barun Gothic', Helvetica; }
+.quicksand { font-family: 'Quicksand', 'Nanum Barun Gothic', sans-serif; }
+.ubuntu { font-family: 'Ubuntu', 'Nanum Barun Gothic', sans-serif; }
+.mali { font-family: 'Mali', 'Nanum Barun Gothic', cursive; }

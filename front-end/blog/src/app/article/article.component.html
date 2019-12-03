@@ -1,0 +1,19 @@
+<main class="blog-article">
+
+    <div class="article-header-container">
+        <blog-article-header></blog-article-header>
+    </div>
+
+    <div class="article-main-container">
+
+        <article class="article-main" *ngIf="navigationInitialized" [@routeAnimation]="prepareActivation(outlet)">
+            <router-outlet #outlet="outlet" (activate)="head.onActivate($event)"></router-outlet>
+        </article>
+
+        <div class="article-navigation-container">
+            <blog-article-navigation (afterInit)="onNavigationInit()"></blog-article-navigation>
+        </div>
+
+    </div>
+
+</main>

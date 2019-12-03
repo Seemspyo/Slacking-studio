@@ -1,0 +1,34 @@
+@import 'src/@variables';
+
+
+@mixin buttonStyle($HEIGHT: 24px, $RADIUS: 3px) {
+
+    .blog-button {
+        width: 100%; height: $HEIGHT;
+        border-radius: $RADIUS;
+        background-color: $EMERALD-BLUE;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color $TRANSIT-DURATION;
+        box-shadow: 0 0 10px rgba(0,0,0,.4);
+
+        &:hover {
+            background-color: $SAPPIRE-BLUE;
+        }
+    
+        &.button-pressed {
+            transform: translateY(4%);
+            box-shadow: 0 0 8px rgba(0,0,0,.4);
+            background-color: $SAPPIRE-BLUE;
+        }
+
+        &[disabled] {
+            background-color: darken($EMERALD-BLUE, 5%);
+            color: $EMERALD-BLUE;
+            pointer-events: none;
+            touch-action: none;
+        }
+    
+    }
+
+}

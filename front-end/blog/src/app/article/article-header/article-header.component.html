@@ -1,0 +1,59 @@
+<header class="blog-article-header">
+
+    <div class="article-header-title">
+        <a class="title-home quicksand" href="https://eunsatio.io" target="_self">Slacking studio</a>
+        <span class="title-splitter">x</span>
+        <a class="title-main" routerLink="/">BLOG</a>
+    </div>
+
+    <div class="article-header-search-container" [class.search-mode]="searchMode">
+
+        <form class="search-form" (submit)="search($event)">
+            <input class="search-form-input" type="text" name="searchQuery" [(ngModel)]="searchQuery" autocomplete="off"
+                #searchInput
+                (input)="refreshKeywordList()"
+                (keydown)="selectKeyword($event)"
+                (blur)="toggleKeywordList('hide', true); toggleSearchMode('deactivate', true)"
+                (focus)="toggleKeywordList('show'); toggleSearchMode('activate')"
+            />
+            <button class="search-form-icon" type="button" (click)="toggleSearchMode('activate')">
+                <fa-icon [icon]="searchIcon"></fa-icon>
+            </button>
+        </form>
+
+        <div class="search-keyword" #keywordList *ngIf="keywordVisibility">
+            <ng-container *ngFor="let keyword of keywords">
+                <div class="search-keyword-item" [class.selected]="keyword.selected">
+                    <a class="item-button" routerLink="/" [queryParams]="{ search: keyword.value }">
+                        <p class="item-text">{{ keyword.value }}</p>
+                    </a>
+                </div>
+            </ng-container>
+        </div>
+
+    </div>
+
+    <div class="article-header-user">
+
+        <ng-container *ngIf="!auth.sign; else UserInfoTemplate">
+            <a class="user-button-sign-in" routerLink="/account/sign-in" [queryParams]="redirectQuery">Sign in</a>
+        </ng-container>
+
+        <ng-template #UserInfoTemplate>
+            <button class="user-button" (click)="$event.stopPropagation();toggleUserTab()">
+                <p class="user-button-nickname">{{ user.nickname }}</p>
+                <div class="user-button-profile-image">
+                    <img [src]="auth.currentUser.profileImagePath" />
+                </div>
+            </button>
+        </ng-template>
+
+        <div class="user-info" *ngIf="tabVisibility" (click)="$event.stopPropagation()" @slideDown>
+            <p class="user-info-message"><strong>{{ user.nickname }}</strong> is slacking.</p>
+            <a class="user-info-mypage" routerLink="/account/my-account">my page</a>
+            <button blogButton class="user-sign-out" type="button" (click)="signOut()">Sign out</button>
+        </div>
+
+    </div>
+
+</header>

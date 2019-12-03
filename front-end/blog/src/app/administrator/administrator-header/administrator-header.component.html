@@ -1,0 +1,19 @@
+<header class="blog-admin-header">
+
+    <button class="header-nav-button" type="button" (click)="emitNavEvent()" matRipple matRippleColor="rgba(25,159,198,.1)" matRippleCentered="true">
+        <fa-icon [icon]="navIcon"></fa-icon>
+    </button>
+
+    <div class="header-title-container">
+        <a class="header-title" href="https://eunsatio.io" target="_self">Slacking studio</a>
+        <span class="header-title">x</span>
+        <a class="header-title" routerLink="/">BLOG</a>
+    </div>
+
+    <a class="header-user-button" routerLink="/account/my-account">
+        <div class="header-user-profile-image">
+            <img [src]="userProfileImagePath" />
+        </div>
+    </a>
+
+</header>

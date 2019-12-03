@@ -1,0 +1,29 @@
+<div class="blog-account-signup">
+
+    <div class="signup-box" [class.in-process]="processing">
+
+        <div class="box-image-container process-item-container">
+            <a class="box-image process-item" title="Home">
+                <img [src]="profileImagePath" />
+            </a>
+        </div>
+
+        <form class="box-form" (submit)="signUp($event)">
+
+            <div class="box-form-input-container">
+                <input class="box-form-input" #profileImageInput blogFileInput type="file" placeholder="Profile Image" accept="image/*" (change)="onProfileImageSelect()" />
+            </div>
+
+            <div class="box-form-input-container" *ngFor="let item of forms">
+                <input class="box-form-input" blogInput [type]="item.type" [placeholder]="item.title" [hasError]="(item.hasError && item.hasError()) || defaultValidator(item.controlKey)" [formControl]="formGroup.get(item.controlKey)" />
+            </div>
+
+            <div class="box-form-input-container">
+                <button class="box-form-submit" blogButton type="submit" [disabled]="!signable">Sign up</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

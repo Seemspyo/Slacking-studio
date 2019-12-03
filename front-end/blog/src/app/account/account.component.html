@@ -1,0 +1,11 @@
+<main class="blog-account">
+
+    <header class="account-header">
+        <h1 class="account-header-title">{{ headerTitle }}</h1>
+    </header>
+
+    <div class="account-content-container">
+        <router-outlet (activate)="onActivate($event)"></router-outlet>
+    </div>
+
+</main>

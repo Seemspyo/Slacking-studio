@@ -1,0 +1,12 @@
+# production
+/dist
+
+# dependency
+/node_modules
+
+# dev only
+/src/privates
+
+# test unit
+/host
+/.tmp

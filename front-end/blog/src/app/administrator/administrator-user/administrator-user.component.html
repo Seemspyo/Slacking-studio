@@ -1,0 +1,61 @@
+<div class="blog-admin-user">
+
+    <div class="user-list-container">
+        <ol class="user-list">
+
+            <li class="user-item header-item">
+                <ul class="user-item-info-list">
+                    <li class="user-item-info" *ngFor="let header of headerList">
+                        <button class="user-item-info-button" type="button" (click)="sortBy(header.key)">
+                            <p class="button-label">{{ header.label }}</p>
+                            <fa-icon [icon]="arrowIcon" *ngIf="isCurrentKey(header.key)"></fa-icon>
+                        </button>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="user-item" *ngFor="let user of userList">
+                <ul class="user-item-info-list">
+                    <li class="user-item-info">{{ user.nickname }}</li>
+                    <li class="user-item-info">{{ user.email }}</li>
+                    <li class="user-item-info">{{ user.level }}</li>
+                    <li class="user-item-info">{{ getDateString(user.date.joinedAt) }}</li>
+                    <li class="user-item-info">{{ getDateString(user.date.lastLoginAt) }}</li>
+                    <li class="user-item-info">
+                        <button class="user-item-info-button" title="edit account" (click)="spawnUserForm(user)">
+                            <fa-icon [icon]="modifyIcon"></fa-icon>
+                        </button>
+                        <button class="user-item-info-button delete-icon" title="delete account" *ngIf="user.level < 8" (click)="deleteUser(user)">
+                            <fa-icon [icon]="deleteIcon"></fa-icon>
+                        </button>
+                    </li>
+                </ul>
+            </li>
+
+        </ol>
+    </div>
+
+</div>
+
+
+<ng-template #UserForm>
+    <form class="user-form" (submit)="editUserInfo($event)">
+
+        <div class="user-form-input-container">
+            <input class="user-form-input" blogFileInput type="file" placeholder="Profile Image" accept="image/*" (change)="onProfileImageSelect()" />
+        </div>
+
+        <div class="user-form-input-container" *ngFor="let item of forms">
+            <input class="user-form-input" blogInput [type]="item.type" [placeholder]="item.title" [hasError]="(item.hasError && item.hasError()) || defaultValidator(item.controlKey)" [formControl]="userFormGroup.get(item.controlKey)" />
+        </div>
+
+        <div class="user-form-input-container">
+            <textarea class="user-form-input" blogInput placeholder="Introduce" [formControl]="userFormGroup.get('introduction')"></textarea>
+        </div>
+
+        <div class="user-form-input-container">
+            <button class="user-form-submit" type="submit">Update</button>
+        </div>
+
+    </form>
+</ng-template>

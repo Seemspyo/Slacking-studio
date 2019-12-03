@@ -1,0 +1,128 @@
+<div class="blog-article-comment">
+
+    <div class="comment-spinner-container in-process" *ngIf="processing">
+        <div class="comment-spinner process-item-container"></div>
+    </div>
+
+    <div class="comment-main-form-container">
+        <ng-container *ngTemplateOutlet="CommentForm; context: getTemplateContext(0)"></ng-container>
+    </div>
+
+    <div class="comment-list-container">
+        <ul class="comment-list">
+            <li class="comment-item-container" *ngFor="let comment of commentList" [class.child-item]="comment.parentId">
+                <div class="comment-item">
+
+                    <div class="comment-item-profile-image">
+                        <img [src]="comment.profileImagePath" />
+                    </div>
+
+                    <ng-container [ngSwitch]="comment.deleted">
+
+                        <ng-container *ngSwitchCase="true">
+                            <div class="comment-item-content">
+
+                                <div class="comment-item-content-info">
+                                    <h4 class="info-nickname">{{ comment.nickname }}</h4>
+                                    <p class="info-date">Deleted</p>
+                                </div>
+    
+                                <div class="comment-item-content-text-container">
+                                    <p class="text-content text-content-deleted">This comment has been deleted.</p>
+                                </div>
+
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="false">
+                            <div class="comment-item-content">
+
+                                <div class="comment-item-content-info">
+                                    <h4 class="info-nickname">{{ comment.nickname }}</h4>
+                                    <p class="info-date">{{ comment.dateString }}</p>
+                                </div>
+
+                                <div class="comment-item-content-text-container" *ngIf="!comment.editMode; else EditBlock">
+                                    <span *ngIf="comment.parentId" class="text-parent">@{{ getNickname(comment.parentId) }}</span>
+                                    <p class="text-content">{{ comment.content }}</p>
+                                </div>
+
+                                <div class="comment-item-content-console">
+                                    <button class="console-button" type="button" (click)="toggleReplyMode(comment)" [class.button-active]="comment.replyMode">Reply</button>
+                                    <ng-container *ngIf="managable(comment)">
+                                        <button class="console-button" type="button" (click)="toggleEditMode(comment)" [class.button-active]="comment.editMode">Edit</button>
+                                        <button class="console-button" type="button" (click)="confirm('delete', comment)">Delete</button>
+                                    </ng-container>
+                                </div>
+
+                            </div>
+
+                            <ng-template #EditBlock>
+                                <form class="comment-item-form" [formGroup]="getEditGroup(comment.id)" (submit)="$event.preventDefault();confirm('edit', comment)">
+                                    <ng-container *ngTemplateOutlet="CommentFormContent; context: { group: getEditGroup(comment.id) }"></ng-container>
+                                </form>
+                            </ng-template>
+                        </ng-container>
+
+                    </ng-container>
+
+                </div>
+
+                <ng-container *ngIf="comment.replyMode" >
+                    <ng-container *ngTemplateOutlet="CommentForm; context: getTemplateContext(comment.id)"></ng-container>
+                </ng-container>
+
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+
+<ng-template #CommentForm let-group="formGroup">
+    <form class="comment-form-container" [formGroup]="group" (submit)="postComment($event, group)" [ngClass]="{ 'user-form': sign, 'guest-form': !sign }">
+        <ng-container *ngTemplateOutlet="sign ? UserCommentForm : GuestCommentForm; context: { group: group }"></ng-container>
+    </form>
+</ng-template>
+
+<ng-template #UserCommentForm let-group="group">
+    <div class="comment-form-profile">
+
+        <div class="comment-form-profile-image">
+            <img [src]="userProfileImagePath" />
+        </div>
+
+    </div>
+
+    <ng-container *ngTemplateOutlet="CommentFormContent; context: { group: group }"></ng-container>
+</ng-template>
+
+<ng-template #GuestCommentForm let-group="group">
+    <div class="comment-form-info" [formGroup]="group">
+        <div class="comment-form-info-item">
+            <input blogInput class="item-input" type="text" formControlName="nickname" placeholder="Nickname" [hasError]="validator(group.get('nickname'))" />
+        </div>
+        <div class="comment-form-info-item">
+            <input blogInput class="item-input" type="password" formControlName="password" placeholder="Password" [hasError]="validator(group.get('password'))" />
+        </div>
+    </div>
+
+    <ng-container *ngTemplateOutlet="CommentFormContent; context: { group: group }"></ng-container>
+</ng-template>
+
+<ng-template #CommentFormContent let-group="group">
+    <div class="comment-form-content" [formGroup]="group">
+        <textarea class="comment-form-content-input" formControlName="content"></textarea>
+        <button blogButton class="comment-form-content-button" type="submit" [disabled]="group.invalid">Send</button>
+    </div>
+</ng-template>
+
+<ng-template #ConfirmPassword let-comment="comment" let-command="command">
+    <form class="comment-confirm" (submit)="onConfirmSubmit($event, comment, command)">
+        <input class="comment-confirm-input" name="confirm-input" type="password" placeholder="Enter password" [(ngModel)]="comment.password" />
+        <div class="comment-confirm-button-container">
+            <button blogButton class="comment-confirm-button" type="submit">{{ command | uppercase }}</button>
+            <button blogButton class="comment-confirm-button" type="button" (click)="dismissConfirm(comment.id)">Cancel</button>
+        </div>
+    </form>
+</ng-template>

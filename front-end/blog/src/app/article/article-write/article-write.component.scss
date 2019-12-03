@@ -1,0 +1,241 @@
+@import '../../modules/input/input.module.scss';
+@import '../../modules/button/button.module.scss';
+
+
+@include inputStyle();
+@include buttonStyle();
+
+:host {
+    width: 100%; height: 100%;
+    display: flex;
+}
+
+.blog-article-write {
+    width: 100%;
+    display: flex;
+    background-color: darken($EMERALD-BLUE, 10%);
+    flex-grow: 1;
+
+    .write-form-container {
+        width: 96%;
+        margin: 60px auto;
+    }
+
+}
+
+button.form-status-button {
+    background-color: transparent;
+    font: {
+        size: 1.2rem;
+        weight: 400;
+    }
+    cursor: pointer;
+    margin-left: auto;
+    display: block;
+    transition: color 300ms;
+
+    &[title=Private] {
+        color: #fff;
+    }
+
+    &[title=Public] {
+        color: $EMERALD-BLUE;
+        font-weight: 300;
+    }
+
+}
+
+.form-title-container {
+    width: 100%;
+}
+
+.form-category-container {
+    margin: 20px 0 30px;
+    position: relative;
+
+    ul.form-category-list {
+        position: absolute;
+        top: 100%; left: 6px;
+        background-color: $EMERALD-BLUE;
+        box-shadow: 0 0 10px rgba(0,0,0,.4);
+        z-index: 2;
+        border-radius: 12px;
+        overflow: hidden;
+
+        li.form-category-item {
+            width: 100%; height: 32px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            color: #fff;
+            font: {
+                size: 0.9rem;
+                weight: 300;
+            }
+            cursor: pointer;
+
+            &.selected, &:hover {
+                background-color: $SAPPIRE-BLUE;
+            }
+
+        }
+
+    }
+    
+}
+
+.form-image-container {
+    width: 100%;
+    margin-top: 3px;
+
+    .form-image-list {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 3px 0;
+
+        .form-image-item {
+            width: 120px; height: 120px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            background-color: $EMERALD-BLUE;
+
+            &:not(:first-of-type) {
+                margin-left: 3px;
+            }
+
+            img {
+                width: 100%;
+            }
+
+            button.form-image-item-delete {
+                $BUTTON-SIZE: 20px;
+                position: absolute;
+                top: 3px; right: 3px;
+                width: $BUTTON-SIZE; height: $BUTTON-SIZE;
+                border-radius: $BUTTON-SIZE / 2;
+                background-color: darken($EMERALD-BLUE, 10%);
+                color: #fff;
+                font-size: 0.6rem;
+                box-shadow: 0 0 3px rgba(255,255,255,.4);
+                cursor: pointer;
+            }
+
+        }
+
+    }
+
+}
+
+.form-tag-container {
+    width: 100%;
+    margin-top: 20px;
+
+    form.form-tag {
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+
+        button.form-tag-submit {
+            width: 80px;
+            border-radius: 12px;
+            margin-left: 12px;
+            flex-shrink: 0;
+        }
+
+    }
+
+    .form-tag-list {
+        display: flex;
+        flex-wrap: wrap;
+
+        .form-tag-item {
+            padding: {
+                left: 6px;
+                right: 2px;
+            }
+            height: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0,0,0,.4);
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            margin-top: 12px;
+            max-width: 120px;
+
+            &:not(:first-of-type) {
+                margin-left: 12px;
+            }
+
+            span.form-tag-item-context {
+                font-size: 0.8em;
+                color: $EMERALD-BLUE;
+                width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            button.form-tag-item-delete {
+                width: 16px; height: 16px;
+                border-radius: 8px;
+                background-color: $SAPPIRE-BLUE;
+                color: #fff;
+                font-size: 0.6em;
+                margin-left: 4px;
+                flex-shrink: 0;
+                cursor: pointer;
+            }
+
+        }
+
+    }
+
+}
+
+.form-button-container {
+    display: flex;
+
+    button.form-button {
+        height: 42px;
+        margin-top: 40px;
+        font-size: 1.2rem;
+        border-radius: 21px;
+
+        &:not(:first-of-type) {
+            margin-left: 12px;
+        }
+
+    }
+
+}
+
+.confirm-delete {
+    display: flex;
+
+    p.confirm-delete-text {
+        font-size: 0.9rem;
+    }
+
+    .confirm-delete-button-container {
+        display: flex;
+        align-items: center;
+        margin-left: 16px;
+
+        button.confirm-delete-button {
+            width: 60px; height: 30px;
+
+            &:not(:first-of-type) {
+                margin-left: 12px;
+            }
+
+        }
+
+    }
+
+}
+
+::ng-deep .tox-notifications-container { display: none !important; }

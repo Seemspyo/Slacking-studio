@@ -1,0 +1,41 @@
+<div class="blog-admin-comment">
+
+    <form class="comment-search" (submit)="search($event)">
+        <input class="comment-search-input" type="text" name="search-input" [(ngModel)]="inputValue" placeholder="Search... (Title or Nickname)" (input)="search()" />
+    </form>
+
+    <div class="comment-list-container">
+        <ol class="comment-list">
+
+            <li class="comment-item header-item">
+                <ul class="comment-item-info-list">
+                    <li class="comment-item-info" *ngFor="let header of headerList">
+                        <button class="comment-item-info-button" type="button" (click)="sortBy(header.key)">
+                            <p class="button-label">{{ header.label }}</p>
+                            <fa-icon [icon]="arrowIcon" *ngIf="isCurrentKey(header.key)"></fa-icon>
+                        </button>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="comment-item" *ngFor="let comment of commentList">
+                <ul class="comment-item-info-list">
+                    <li class="comment-item-info">{{ comment.articleTitle }}</li>
+                    <li class="comment-item-info">{{ comment.author }}</li>
+                    <li class="comment-item-info">{{ getDateString(comment.createdAt) }}</li>
+                    <li class="comment-item-info">{{ getDateString(comment.updatedAt) }}</li>
+                    <li class="comment-item-info">
+                        <a class="comment-item-info-button" title="edit comment" [routerLink]="comment.editLink">
+                            <fa-icon [icon]="modifyIcon"></fa-icon>
+                        </a>
+                        <button class="comment-item-info-button delete-icon" title="delete comment" (click)="deleteComment(comment)">
+                            <fa-icon [icon]="deleteIcon"></fa-icon>
+                        </button>
+                    </li>
+                </ul>
+            </li>
+
+        </ol>
+    </div>
+
+</div>

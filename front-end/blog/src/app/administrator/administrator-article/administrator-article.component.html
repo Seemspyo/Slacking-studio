@@ -1,0 +1,45 @@
+<div class="blog-admin-article">
+
+    <form class="article-search" (submit)="search($event)">
+        <input class="article-search-input" type="text" name="search-input" [(ngModel)]="inputValue" placeholder="Search... (Title or Nickname)" (input)="search()" />
+    </form>
+
+    <div class="article-list-container">
+        <ol class="article-list">
+
+            <li class="article-item header-item">
+                <ul class="article-item-info-list">
+                    <li class="article-item-info" *ngFor="let header of headerList">
+                        <button class="article-item-info-button" type="button" (click)="sortBy(header.key)">
+                            <p class="button-label">{{ header.label }}</p>
+                            <fa-icon [icon]="arrowIcon" *ngIf="isCurrentKey(header.key)"></fa-icon>
+                        </button>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="article-item" *ngFor="let article of articleList">
+                <ul class="article-item-info-list">
+                    <li class="article-item-info">{{ article.title }}</li>
+                    <li class="article-item-info">{{ article.category }}</li>
+                    <li class="article-item-info">{{ article.author }}</li>
+                    <li class="article-item-info">{{ getDateString(article.createdAt) }}</li>
+                    <li class="article-item-info">{{ getDateString(article.updatedAt) }}</li>
+                    <li class="article-item-info">{{ article.view }}</li>
+                    <li class="article-item-info">{{ article.likes }}</li>
+                    <li class="article-item-info">{{ article.comments }}</li>
+                    <li class="article-item-info">
+                        <a class="article-item-info-button" title="edit article" [routerLink]="article.editLink">
+                            <fa-icon [icon]="modifyIcon"></fa-icon>
+                        </a>
+                        <button class="article-item-info-button delete-icon" title="delete article" (click)="deleteArticle(article)">
+                            <fa-icon [icon]="deleteIcon"></fa-icon>
+                        </button>
+                    </li>
+                </ul>
+            </li>
+
+        </ol>
+    </div>
+
+</div>

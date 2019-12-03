@@ -1,0 +1,82 @@
+<div class="blog-article-view">
+    <div class="view-container" *ngIf="article">
+
+        <header class="view-header">
+
+            <div class="view-header-image" [style.background-image]="'url(' + article.thumbnailImagePath + ')'">
+                <!-- <img [src]="article.thumbnailImagePath" /> -->
+            </div>
+
+            <div class="view-header-content">
+
+                <div class="view-header-content-title-container">
+                    <h1 class="view-header-content-title n-b-gothic">{{ article.title }}</h1>
+                </div>
+
+                <div class="view-header-content-info">
+                    <div class="info-profile-image">
+                        <img [src]="getProfileImagePath()" />
+                    </div>
+                    <div class="info-content">
+                        <h4 class="info-content-nickname">{{ (article.author && article.author.nickname) || 'Anonymous' }}</h4>
+                        <p class="info-content-date">{{ getDateString() }}</p>
+                    </div>
+                    <div class="info-likes">
+                        <button class="info-likes-button" (click)="toggleLike()">
+                            <fa-icon [icon]="likeIcon"></fa-icon>
+                        </button>
+                        <span class="info-likes-count" *ngIf="article.likes && article.likes.length">{{ article.likes.length }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+        <article class="view-article article-content-container n-b-gothic" [innerHTML]="article.content | safeContent: 'html'"></article>
+
+        <footer class="view-footer">
+
+            <div class="view-footer-user-console">
+                <a blogButton [href]="'https://www.facebook.com/sharer/sharer.php?u=' + link" class="view-footer-console-item" target="_blank" title="Share this post on Facebook">
+                    <fa-icon [icon]="facebookIcon"></fa-icon>
+                </a>
+                <a blogButton [href]="'https://twitter.com/share?text=' + article.title + '&url=' + link" class="view-footer-console-item" target="_blank" title="Share this post on Twitter">
+                    <fa-icon [icon]="twitterIcon"></fa-icon>
+                </a>
+                <a blogButton [href]="'https://www.linkedin.com/shareArticle?url=' + link + '&title=' + article.title" class="view-footer-console-item" target="_blank" title="Share this post on LinkedIn">
+                    <fa-icon [icon]="linkedInIcon"></fa-icon>
+                </a>
+                <button blogButton class="view-footer-console-item" (click)="toggleLike()">
+                    <fa-icon [icon]="likeIcon"></fa-icon>
+                </button>
+            </div>
+
+            <div class="view-footer-admin-console" *ngIf="modifiable">
+                <a class="view-footer-console-item" [routerLink]="article.modifyLink">Modify</a>
+                <a class="view-footer-console-item" [routerLink]="article.link" (click)="confirmDelete()">Delete</a>
+            </div>
+
+            <div class="view-footer-tag-container">
+                <a class="view-footer-tag" *ngFor="let tag of article.tags" routerLink="/" [queryParams]="getQuery(tag)">{{ tag }}</a>
+            </div>
+
+            <div class="view-footer-comment-container">
+                <blog-article-comment [comments]="article.comments" [articleId]="article._id"></blog-article-comment>
+            </div>
+
+        </footer>
+
+    </div>
+</div>
+
+
+<ng-template #confirmTemplate>
+    <div class="confirm-delete">
+        <p class="confirm-delete-text">Once deleted, the article cannot be restored.<br/>Sure to proceed?</p>
+        <div class="confirm-delete-button-container">
+            <button blogButton class="confirm-delete-button" (click)="delete()">Yes</button>
+            <button blogButton class="confirm-delete-button" (click)="dismissConfirm()">No</button>
+        </div>
+    </div>
+</ng-template>

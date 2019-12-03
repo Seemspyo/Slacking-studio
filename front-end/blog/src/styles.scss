@@ -1,0 +1,91 @@
+@import url(//cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css); // Korean
+@import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700); // Gate
+@import url(https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,500,500i,700,700i); // Blog
+
+@import 'src/app/services/util/sticky-bar.service';
+
+
+* { margin: 0; border: 0; padding: 0; box-sizing: border-box; }
+:root { width: 100%; height: 100%; overflow: { x: hidden; y: auto; } }
+body { width: 100%; height: 100%; }
+a { text-decoration: none; }
+li { list-style-type: none; }
+input, select, textarea, button { font-family: inherit; &:focus { outline: none; } }
+
+.n-b-gothic { font-family: 'Nanum Barun Gothic', Helvetica; }
+.quicksand { font-family: 'Quicksand', 'Nanum Barun Gothic', sans-serif; }
+.ubuntu { font-family: 'Ubuntu', 'Nanum Barun Gothic', sans-serif; }
+
+:root * {
+
+    &::-webkit-scrollbar {
+        width: 6px; height: 6px;
+        background-color: #f7f7f7;
+
+        &-track {
+            box-shadow: 0 0 6px rgba(0,0,0,.3);
+        }
+
+        &-thumb {
+            background-color: darken($SAPPIRE-BLUE, 5%);
+        }
+
+    }
+
+    &::selection {
+        background-color: $SAPPIRE-BLUE;
+        color: #f7f7f7;
+    }
+    
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(90deg);
+    }
+    to {
+        transform: rotate(450deg);
+    }
+}
+
+.blog-loading-screen {
+    position: fixed !important;
+    top: 0; right: 0; bottom: 0; left: 0;
+    z-index: 99;
+    background-color: #fff;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    touch-action: none;
+    transition: opacity 500ms;
+
+    &::after {
+        $SPINNER-SIZE: 90px;
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        margin: auto;
+        width: $SPINNER-SIZE; height: $SPINNER-SIZE;
+        border-radius: $SPINNER-SIZE / 2;
+        opacity: 0.8;
+        box-sizing: border-box;
+        border: {
+            style: solid;
+            width: 5px;
+            color: $SAPPIRE-BLUE transparent $SAPPIRE-BLUE transparent;
+        }
+        animation: {
+            name: rotate;
+            duration: 1200ms;
+            iteration-count: infinite;
+            timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+        }
+    }
+
+    &.animated-in {
+        opacity: 0;
+    }
+
+}
+
+@include stickyBarStyle(#f7f7f7, $EMERALD-BLUE);

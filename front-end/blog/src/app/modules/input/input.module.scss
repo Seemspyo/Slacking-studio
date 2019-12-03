@@ -1,0 +1,235 @@
+@import 'src/@variables';
+
+
+@mixin inputStyle($INPUT-HEIGHT: 24px, $LABEL-HEIGHT: 20px) {
+
+    .blog-input-container {
+        width: 100%;
+        display: flex;
+        position: relative;
+    
+        .blog-input-input-container {
+            width: 100%; min-height: $INPUT-HEIGHT;
+            border-radius: $INPUT-HEIGHT / 2;
+            margin-top: $LABEL-HEIGHT;
+            overflow: hidden;
+            padding: 0 $INPUT-HEIGHT / 2;
+            transition: background-color $TRANSIT-DURATION;
+    
+            .blog-input-input {
+                width: 100%;
+                display: block;
+                margin: 0 auto;
+                background-color: transparent;
+    
+                &::placeholder {
+                    color: transparent;
+                }
+    
+            }
+
+            input.blog-input-input {
+                padding: 5px 0;
+                height: $INPUT-HEIGHT;
+            }
+
+            textarea.blog-input-input {
+                min-height: 80px;
+                padding: $INPUT-HEIGHT / 2 0;
+                resize: none;
+            }
+    
+            &.file-input {
+                cursor: pointer;
+                position: relative;
+    
+                input.blog-input-input {
+                    position: absolute;
+                    z-index: -1;
+                }
+    
+                span.blog-input-text {
+                    display: block;
+                    max-width: 100%;
+                    height: 100%;
+                    padding: 5px 0;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    color: $SAPPIRE-BLUE;
+                    font-size: 0.9rem;
+                }
+    
+            }
+    
+        }
+    
+        .blog-input-label-container {
+            position: absolute;
+            top: 0; left: 0;
+            transition: {
+                property: top, transform;
+                duration: 300ms;
+            }
+    
+            label.blog-input-label {
+                transition: {
+                    property: color, font-size;
+                    duration: 300ms;
+                }
+                cursor: inherit;
+            }
+    
+            &:not(.label-appended) {
+                transform: translate(#{ $INPUT-HEIGHT / 2 }, calc(#{ $LABEL-HEIGHT + ($INPUT-HEIGHT / 2) } - 50%));
+                cursor: text;
+    
+                label.blog-input-label {
+                    color: $SAPPIRE-BLUE;
+                    font-size: 1rem;
+                }
+    
+            }
+    
+            &.label-appended {
+                transform: translate(0px, 0px);
+                cursor: default;
+    
+                label.blog-input-label {
+                    font-size: 0.9rem;
+                }
+    
+            }
+    
+        }
+    
+        .blog-input-error-container {
+            display: none;
+        }
+    
+        .blog-input-icon-container {
+            position: absolute;
+            top: 0; right: $INPUT-HEIGHT / 2; 
+            transform: translateY(calc(#{ $LABEL-HEIGHT + ($INPUT-HEIGHT / 2) } - 50%));
+            color: darken($EMERALD-BLUE, 10%);
+            cursor: pointer;
+        }
+    
+        &:not(.input-focused) {
+    
+            .blog-input-input-container {
+                background-color: $EMERALD-BLUE;
+    
+                .blog-input-input {
+                    color: $SAPPIRE-BLUE;
+                }
+    
+            }
+    
+            .blog-input-label-container {
+    
+                &.label-appended {
+    
+                    label.blog-input-label {
+                        color: $EMERALD-BLUE;
+                    }
+    
+                }
+    
+            }
+    
+        }
+    
+        &.input-focused {
+    
+            .blog-input-input-container {
+                background-color: #fff;
+    
+                .blog-input-input {
+                    color: #333;
+                }
+    
+            }
+    
+            .blog-input-label-container {
+    
+                &.label-appended {
+    
+                    label.blog-input-label {
+                        color: #fff;
+                    }
+    
+                }
+    
+            }
+    
+        }
+    
+        &.input-errored {
+    
+            .blog-input-error-container {
+                display: block;
+                position: absolute;
+                top: 0; right: 12px;
+                font-size: 0.9rem;
+                color: #fff;
+            }
+    
+            &::after {
+                $BOX-SIZE: 0.9rem;
+                @keyframes blink {
+                    from { opacity: 1; }
+                    to { opacity: 0.4; }
+                }
+    
+                content: '';
+                width: $BOX-SIZE; height: $BOX-SIZE;
+                border-radius: $BOX-SIZE / 2;
+                display: block;
+                position: absolute;
+                top: 0; right: $INPUT-HEIGHT / 2; 
+                background-color: $DEEP-ORANGE;
+                transform: translateY(calc(#{ $LABEL-HEIGHT + ($INPUT-HEIGHT / 2) } - 50%));
+                animation: {
+                    name: blink;
+                    iteration-count: infinite;
+                    direction: alternate;
+                    duration: 300ms;
+                    timing-function: ease-in;
+                }
+                cursor: text;
+            }
+    
+        }
+
+        &.input-disabled {
+            cursor: default;
+
+            .blog-input-input-container {
+                background-color: darken($EMERALD-BLUE, 5%);
+                cursor: default;
+
+                .blog-input-input {
+                    color: darken($SAPPIRE-BLUE, 5%);
+                }
+
+            }
+
+            .blog-input-label-container {
+
+                label.blog-input-label {
+                    color: darken($SAPPIRE-BLUE, 5%);
+                    cursor: default;
+                }
+
+            }
+
+            .blog-input-icon-container {
+                cursor: default;
+            }
+
+        }
+    
+    }
+
+}

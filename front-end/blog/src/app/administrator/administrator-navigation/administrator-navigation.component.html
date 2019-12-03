@@ -1,0 +1,19 @@
+<nav class="blog-admin-navigation">
+
+    <div class="navigation-button-container">
+        <ng-container *ngFor="let nav of navigationList">
+            <a matRipple matRippleColor="rgba(30,30,30,.1)" class="navigation-button" [routerLink]="nav.url" (click)="prevNavigation = nav" [class.active-button]="prevNavigation === nav">
+                <fa-icon [icon]="nav.icon"></fa-icon>
+                <p class="navigation-button-label">{{ nav.label }}</p>
+            </a>
+        </ng-container>
+    </div>
+
+    <div class="navigation-console">
+        <button class="navigation-console-button" type="button" (click)="signOut()" matRipple matRippleColor="rgba(30,30,30,.1)">
+            <fa-icon [icon]="signOutIcon"></fa-icon>
+            <p class="navigation-console-button-label">Sign out</p>
+        </button>
+    </div>
+
+</nav>

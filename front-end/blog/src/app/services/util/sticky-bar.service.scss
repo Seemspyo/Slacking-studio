@@ -1,0 +1,44 @@
+@import 'src/@variables.scss';
+
+
+@mixin stickyBarStyle($background-color: darken($EMERALD-BLUE, 10%), $color: #fff) {
+
+    .blog-sticky-bar {
+        padding: 10px 12px;
+        background-color: $background-color;
+        color: $color;
+        font: {
+            size: 0.9rem;
+            weight: 500;
+            family: "Ubuntu", "Nanum Barun Gothic", cursive;
+        }
+        border-radius: 3px;
+        box-shadow: 0 0 10px rgba(0,0,0,.4);
+        transition: {
+            property: opacity, bottom, transform;
+            duration: 300ms;
+        }
+        right: 12px;
+        cursor: default;
+        white-space: pre-wrap;
+        line-height: 160%;
+        max-width: calc(100vw - 24px);
+        z-index: 9;
+    
+        &[step="0"] {
+            transform: translate(100%, 100%);
+            opacity: 0;
+        }
+    
+        &[step="1"] {
+            transform: translate(0%, 0%);
+        }
+    
+        &[step="2"] {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+    
+    }
+
+}

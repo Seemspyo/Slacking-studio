@@ -1,0 +1,34 @@
+@import 'src/@variables';
+
+
+.gate-redirect {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @each $view in $views {
+        $id: map-get($view, id);
+
+        &[view=#{ $id }] {
+            $theme-color: map-get($view, color);
+            background-color: $theme-color;
+        }
+
+    }
+
+    canvas.redirect-display {
+        transition: {
+            property: transform, opacity;
+            timing-function: ease-out;
+        }
+
+        &.before-init {
+            transform: scale(0.8);
+            opacity: 0.2;
+        }
+
+    }
+
+}

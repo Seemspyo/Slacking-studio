@@ -1,0 +1,9 @@
+$THEME-COLOR-MAIN: #ffb320;
+$THEME-COLOR-BLOG: #199fc6;
+$THEME-COLOR-PLAYGROUND: #2fa83f;
+
+$views: (
+    ( id: 'main', color: $THEME-COLOR-MAIN, font: 'Quicksand' ),
+    ( id: 'blog', color: $THEME-COLOR-BLOG, font: 'Ubuntu' ),
+    ( id: 'playground', color: $THEME-COLOR-PLAYGROUND, font: 'Mali' )
+);

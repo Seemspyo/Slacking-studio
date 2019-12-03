@@ -1,0 +1,44 @@
+<main class="gate-main quicksand" [attr.view]="currentNav.id">
+
+    <header class="main-header">
+        <div class="header-item">
+            <h1>Slacking</h1>
+        </div>
+        <div class="header-item">
+            <h2>studio</h2>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+
+        <div class="nav-display-container">
+
+            <div class="nav-display" gateSlide [option]="slideOption" (slide)="onSlide($event)">
+                <ul class="nav-display-list">
+                    <li class="nav-display-item" *ngFor="let nav of navList">
+                        <a [href]="nav.uri" class="item-container" [attr.font]="nav.id" (click)="navigate(nav, $event)">{{ nav.title }}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-description-container">
+                <p class="nav-description" [attr.font]="currentNav.id">{{ currentNav.description }}</p>
+            </div>
+
+        </div>
+
+        <div class="nav-console-container">
+            <div class="nav-console">
+                <a class="nav-console-item" *ngFor="let nav of navList" [href]="nav.uri" (mouseenter)="onUserAction($event, nav)" (click)="onUserAction($event, nav)" [attr.font]="nav.id">{{ nav.title }}</a>
+            </div>
+        </div>
+
+    </nav>
+
+    <footer class="main-footer">
+        <div class="footer-copyright-container">
+            <p class="footer-copyright">ⓒ 2019. SeemsPyo all rights reserved.</p>
+        </div>
+    </footer>
+
+</main>

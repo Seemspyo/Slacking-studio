@@ -1,0 +1,247 @@
+@import 'src/@variables';
+
+
+:host {
+    width: 100%; height: 100%;
+    display: block;
+}
+
+main.gate-main {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 500ms;
+    user-select: none;
+    position: relative;
+
+    @each $view in $views {
+        $id: map-get($view, id);
+
+        &[view=#{ $id }] {
+            $theme-color: map-get($view, color);
+            background-color: $theme-color;
+
+            div.header-item {
+                color: $theme-color;
+            }
+
+        }
+
+        [font=#{ $id }] {
+            font-family: map-get($view, font), sans-serif;
+        }
+
+    }
+
+}
+
+header.main-header {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+
+    .header-item {
+        margin-top: 104px;
+        background-color: black;
+        padding: 6px 24px;
+        transition: color 500ms;
+        display: flex;
+        margin-right: auto;
+
+        &:not(:first-of-type) {
+            margin-top: 14px;
+        }
+
+        h1 {
+            font: {
+                size: 4.6rem;
+                weight: 500;
+            }
+        }
+
+        h2 {
+            font: {
+                size: 3rem;
+                weight: 500;
+            }
+            letter-spacing: 0.6rem;
+        }
+
+    }
+
+}
+
+nav.main-nav {
+    margin-top: 36px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .nav-display-container {
+        width: 100%;
+        max-width: 340px;
+
+        .nav-display {
+            width: 100%; height: 92px;
+            border: {
+                style: solid;
+                color: black;
+                top-width: 3px;
+                bottom-width: 3px;
+            }
+            overflow: hidden;
+
+            ul.nav-display-list {
+                min-width: 100%;
+                height: 100%;
+                white-space: nowrap;
+                font-size: 0;
+    
+                li.nav-display-item {
+                    width: 100%; height: 100%;
+                    display: inline-block;
+    
+                    a.item-container {
+                        width: 100%; height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 3rem;
+                        color: black;
+                    }
+    
+                }
+    
+            }
+
+        }
+
+        .nav-description-container {
+            margin-top: 10px;
+            min-height: 30px;
+
+            p.nav-description {
+                text-align: center;
+                font: {
+                    size: 1rem;
+                    weight: 500;
+                }
+            }
+
+        }
+
+    }
+
+    .nav-console-container {
+        width: 100%;
+        max-width: 500px;
+        margin-top: 42px;
+        padding: 0 20px;
+
+        .nav-console {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+
+            a.nav-console-item {
+                font-size: 1.6rem;
+                cursor: pointer;
+                margin: 0 21px 30px;
+            }
+
+        }
+
+    }
+
+}
+
+footer.main-footer {
+    margin: {
+        top: auto;
+        bottom: 42px;
+    }
+    display: flex;
+    justify-content: center;
+
+    .footer-copyright-container {
+        margin-top: 30px;
+
+        p.footer-copyright {
+            padding: 0 20px;
+            font: {
+                size: 1rem;
+                weight: 500;
+            }
+            text-align: center;
+        }
+
+    }
+
+}
+
+
+@media only screen and (max-width: 500px) {
+
+    header.main-header {
+
+        .header-item {
+            padding: 1.4635vw 5.8536vw;
+
+            &:not(:first-of-type) {
+                margin-top: 3.4146vw;
+            }
+
+            h1 {
+                font-size: 18vw;
+            }
+
+            h2 {
+                font-size: 11.8vw;
+            }
+
+        }
+
+    }
+
+    nav.main-nav {
+        margin-top: 8.7805vw;
+
+        .nav-display-container {
+            width: 82%;
+
+            .nav-display {
+                height: 19.6vw;
+
+                ul.nav-display-list {
+        
+                    li.nav-display-item {
+        
+                        a.item-container {
+                            font-size: 11.8vw;
+                        }
+
+                    }
+
+                }
+    
+            }
+
+        }
+
+        .nav-console-container {
+            margin-top: 4vw;
+
+            .nav-console {
+                flex-direction: column;
+                align-items: center;
+            }
+
+        }
+
+    }
+
+}

@@ -1,0 +1,38 @@
+@import 'src/@variables';
+
+
+main.blog-account {
+    width: 100%; min-height: 100vh;
+    background-color: $SAPPIRE-BLUE;
+    display: flex;
+    flex-direction: column;
+}
+
+header.account-header {
+
+    h1.account-header-title {
+        font-size: 11rem;
+        color: rgba(255,255,255,.6);
+        line-height: 80%;
+        user-select: none;
+    }
+
+}
+
+.account-content-container {
+    width: 100%;
+    margin: auto 0;
+}
+
+
+@media only screen and (max-width: 1240px) {
+
+    header.account-header {
+
+        h1.account-header-title {
+            font-size: 14vw;
+        }
+
+    }
+
+}
