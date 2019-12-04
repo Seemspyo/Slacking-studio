@@ -30,10 +30,10 @@ export class SlideDirective implements OnInit, AfterViewInit, OnDestroy {
   private itemsLeft: Array<number>;
   private removerList: Array<() => void>;
 
-  private intialized: boolean = false;
+  public intialized: boolean = false;
+  public dragging: boolean = false;
 
   private containerElWidth: number;
-  private dragging: boolean = false;
   private currentX: number = 0;
   private downX: number = 0;
   private dragX: number = 0;

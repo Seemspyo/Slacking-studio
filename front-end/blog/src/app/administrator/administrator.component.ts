@@ -12,10 +12,7 @@ import { HeadProperties } from '../services/@types';
 @Component({
   selector: 'blog-administrator',
   templateUrl: './administrator.component.html',
-  styleUrls: [
-    './administrator.component.scss',
-    '../../../node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css'
-  ],
+  styleUrls: ['./administrator.component.scss'],
   encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('slide', slideFast)

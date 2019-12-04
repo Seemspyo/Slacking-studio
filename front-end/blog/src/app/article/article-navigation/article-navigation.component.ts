@@ -1,5 +1,5 @@
 /** Native Modules */
-import { Component, OnInit, OnDestroy, Renderer2, Output, EventEmitter, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, Output, EventEmitter, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
 import { trigger } from '@angular/animations';
@@ -55,6 +55,7 @@ export class ArticleNavigationComponent implements OnInit, AfterViewChecked, OnD
   private events: Array<() => void> = new Array();
 
   @Output('afterInit') afterInitEmitter: EventEmitter<void> = new EventEmitter();
+  @ViewChild('containerEl', { static: false }) containerElRef: ElementRef;
 
   constructor(
     public category: CategoryService,
@@ -179,6 +180,12 @@ export class ArticleNavigationComponent implements OnInit, AfterViewChecked, OnD
   }
 
   private touchAction(event: TouchEvent, position: { x: number; y: number; }): void {
+    const path = event.composedPath && event.composedPath();
+    if (path
+      && !path.includes(this.containerElRef.nativeElement)
+      && !path.every(el => !(el instanceof HTMLElement && el.clientHeight < el.offsetHeight))
+    ) return;
+
     switch (event.type) {
       case 'touchstart':
         position.x = event.touches[0].clientX;

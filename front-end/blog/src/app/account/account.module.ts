@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 
 /** Custom Modules */
 import { AccountRoutingModule } from './account-routing.module';
@@ -36,7 +37,8 @@ import { VerifyComponent } from './verify/verify.component';
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    StickyBarModule
+    StickyBarModule,
+    MatDialogModule
   ]
 })
 export class AccountModule { }

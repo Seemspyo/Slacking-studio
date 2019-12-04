@@ -1,4 +1,4 @@
-<div class="article-navigation" [attr.text]="slideState">
+<div class="article-navigation" [attr.text]="slideState" #containerEl>
 
     <div class="navigation-main-container" [style]="scrollWidthVariable | safeContent: 'style'" *ngIf="!sideNavigation || (sideNavigation && open)" [@slide]="slideState">
         <nav class="navigation-main">

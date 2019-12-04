@@ -1,8 +1,9 @@
 /** Native Modules */
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, TemplateRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 /** Types */
 import { AccountComponentChild, FormItem } from '../@types';
@@ -24,7 +25,7 @@ import { matchValidator } from 'src/app/helpers/validator.helper';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements AccountComponentChild, OnInit {
+export class SignUpComponent implements AccountComponentChild, OnInit, OnDestroy {
 
   public readonly title = 'SIGN UP';
   public readonly headProperties: HeadProperties = {
@@ -35,6 +36,7 @@ export class SignUpComponent implements AccountComponentChild, OnInit {
   }
 
   @ViewChild('profileImageInput', { static: false }) profileImageInputRef: ElementRef;
+  @ViewChild('Policy', { static: true }) policyTemplateRef: TemplateRef<any>;
 
   public formGroup = new FormGroup({
     email: new FormControl('', [ Validators.required, Validators.email ]),
@@ -52,11 +54,13 @@ export class SignUpComponent implements AccountComponentChild, OnInit {
   public processing: boolean = false;
   public profileImagePath: string;
   private profileImage: File;
+  private dialogRef: MatDialogRef<any>;
 
   constructor(
     private auth: AuthService,
     private stickyBar: StickyBarService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -66,6 +70,10 @@ export class SignUpComponent implements AccountComponentChild, OnInit {
       return;
     }
     this.profileImagePath = AuthService.DEFAULT_PROFILE_IMAGE_PATH;
+  }
+
+  ngOnDestroy() {
+    if (this.dialogRef) this.dialogRef.close();
   }
 
   public defaultValidator(controlKey: string): boolean {
@@ -132,6 +140,10 @@ export class SignUpComponent implements AccountComponentChild, OnInit {
 
   public get signable(): boolean {
     return this.formGroup.valid && !this.processing;
+  }
+
+  public openServiceTerm(): void {
+    this.dialogRef = this.dialog.open(this.policyTemplateRef);
   }
 
 }

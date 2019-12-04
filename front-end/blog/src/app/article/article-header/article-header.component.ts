@@ -116,10 +116,15 @@ export class ArticleHeaderComponent implements OnInit, OnDestroy {
         }
 
         if (blur) {
-          const remove = this.renderer.listen(window, 'pointerup', () => {
+          const
+          removes = new Array(),
+          deactivate = () => {
             window.setTimeout(() => action());
-            remove();
-          });
+            for (const remove of removes) remove();
+          }
+
+          removes.push(this.renderer.listen(window, 'mouseup', deactivate));
+          removes.push(this.renderer.listen(window, 'touchend', deactivate));
         } else action();
         break;
       default:
@@ -167,10 +172,15 @@ export class ArticleHeaderComponent implements OnInit, OnDestroy {
         }
 
         if (blur) {
-          const remove = this.renderer.listen(window, 'pointerup', () => {
+          const
+          removes = new Array(),
+          deactivate = () => {
             window.setTimeout(() => action());
-            remove();
-          });
+            for (const remove of removes) remove();
+          }
+
+          removes.push(this.renderer.listen(window, 'mouseup', deactivate));
+          removes.push(this.renderer.listen(window, 'touchend', deactivate));
         } else action();
         break;
     }

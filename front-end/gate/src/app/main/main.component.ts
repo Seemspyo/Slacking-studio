@@ -51,6 +51,7 @@ export class MainComponent implements OnInit {
 
   public onUserAction(event: MouseEvent, nav: GateNavigationParam): void {
     event.preventDefault();
+    if (this.slideDirective.dragging) return;
 
     switch (event.type) {
       case 'mouseenter':

@@ -1,6 +1,7 @@
 const
 path = require('path'),
-cleanupPlugin = require('webpack-cleanup-plugin');
+CleanupPlugin = require('webpack-cleanup-plugin'),
+webpack = require('webpack');
 
 module.exports = {
     target: "node",
@@ -30,6 +31,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new cleanupPlugin()
+        new CleanupPlugin(),
+        new webpack.ContextReplacementPlugin(/.*/)
     ]
 }

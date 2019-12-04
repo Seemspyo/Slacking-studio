@@ -6,6 +6,10 @@
 @include inputStyle();
 @include buttonStyle();
 
+::ng-deep mat-dialog-container:not(.nothing) {
+    padding: 0;
+}
+
 .blog-account-signup {
     width: 100%;
     margin-bottom: 60px;
@@ -53,16 +57,74 @@
                 }
 
                 button.box-form-submit {
-                    margin-top: 24px;
                     height: 40px;
                     font-size: 1rem;
                 }
 
             }
 
+            .box-form-text-container {
+                margin-top: 24px;
+
+                p.box-form-text {
+                    font: {
+                        size: 0.8rem;
+                        weight: 300;
+                    }
+                    text-align: right;
+                    color: $SAPPIRE-BLUE;
+
+                    a.box-form-text-button {
+                        cursor: pointer;
+                        color: #fff;
+                        text-decoration: underline;
+                        font-weight: 100;
+                    }
+
+                }
+                
+            }
+
         }
 
         @include spinLoadingStyle($CONTAINER-SIZE, 20px, 5px, $DEEP-ORANGE);
+
+    }
+
+}
+
+.signup-policy-container {
+    background-color: darken($EMERALD-BLUE, 10%);
+    border-radius: 6px;
+    overflow: hidden;
+    padding: 12px;
+    height: 600px;
+    max-width: 500px;
+    max-height: 90vh;
+
+    .signup-policy {
+        height: 100%;
+        overflow: {
+            x: hidden;
+            y: auto;
+        }
+        box-shadow: 0 0 5px rgba(#000, .6) inset;
+        background-color: #f7f7f7;
+        padding: 12px;
+        color: #333;
+
+        > *:not(:first-child) {
+            margin-top: 12px;
+        }
+
+        > p {
+            padding-left: 12px;
+        }
+
+        > ul {
+            padding-left: 18px;
+            color: $SAPPIRE-BLUE;
+        }
 
     }
 

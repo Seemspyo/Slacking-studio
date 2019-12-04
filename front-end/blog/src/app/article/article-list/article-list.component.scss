@@ -98,16 +98,6 @@ a.blog-article-card {
             object-fit: cover;
         }
 
-        &::after {
-            content: '';
-            display: block;
-            position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(#000, .6);
-            transition: background-color 300ms;
-        }
-
     }
 
     .card-content {
@@ -225,11 +215,6 @@ a.blog-article-card {
         .card-thumbnail {
             width: 100%; height: 66%;
             flex-shrink: 0;
-
-            &::after {
-                display: none;
-            }
-
         }
 
         .card-content {
