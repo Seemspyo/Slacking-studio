@@ -30,7 +30,7 @@ export class HeadService {
       'og:title': 'Slacking studio x BLOG',
       'og:type': 'website',
       'og:description': 'Slacking studio blog.',
-      'og:image': 'https://blog.eunsatio.io/assets/images/default-thumbnail.png'
+      'og:image': 'https://blog.eunsatio.io/assets/images/opengraph.jpg'
     });
 
     for (const key in meta) this.meta.updateTag({ property: key, content: meta[key] });
