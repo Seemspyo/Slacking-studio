@@ -21,8 +21,8 @@ export class ViewLogService {
     return this.log.includes(value);
   }
 
-  public push(value: string): string {
-    this.log.push(value);
+  public push(value: string, allowDuplicate: boolean = false): string {
+    if (allowDuplicate || (!allowDuplicate && !this.includes(value))) this.log.push(value);
     window.localStorage.setItem(this.VIEW_LOG_KEY, JSON.stringify(this.log));
 
     return value;

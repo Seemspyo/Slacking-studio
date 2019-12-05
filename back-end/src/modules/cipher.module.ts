@@ -3,16 +3,13 @@ import crypto from 'crypto';
 
 export class CipherModule {
 
-    private readonly privateKey: Buffer;
-    private readonly publicKey: Buffer;
-    private readonly passphrase: string;
     private readonly padding = crypto.constants.RSA_PKCS1_PADDING;
 
-    constructor(privateKey: Buffer, publicKey: Buffer, passphrase: string) {
-        this.privateKey = privateKey;
-        this.publicKey = publicKey;
-        this.passphrase = passphrase;
-    }
+    constructor(
+        private privateKey: Buffer,
+        private publicKey: Buffer,
+        private passphrase: string
+    ) {}
 
     public publicEncrypt(value: string): string {
         const { publicKey, passphrase, padding } = this;

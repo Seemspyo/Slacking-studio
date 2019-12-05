@@ -182,7 +182,7 @@ export class ArticleViewComponent implements OnInit {
   }
 
   public get link(): string {
-    return `${ window.location.host }${ this.router.url }`;
+    return `https://${ window.location.host }${ this.router.url }`;
   }
 
   private async loadArticle(): Promise<void> {
@@ -191,7 +191,7 @@ export class ArticleViewComponent implements OnInit {
     this.loading = true;
     
     try {
-      const article = await this.articleService.getArticle(title, !this.viewLog.includes(title));
+      const article = await this.articleService.getArticle(title, this.viewLog.includes(this.articleService.decodeTitle(title)));
 
       if (!article.status && !this.auth.admin) {
         this.stickyBar.open('This post is private.');

@@ -12,17 +12,13 @@ export class AuthModule {
     private readonly APP_ACCESS_HEADER = 'ss-app-access-token';
     private readonly USER_ACCESS_HEADER = 'ss-user-access-token';
 
-    private privateKey: Buffer;
-    private publicKey: Buffer;
-    private passphrase: string;
-
     public algorithm: string = 'RS256';
 
-    constructor(privateKey: Buffer, publicKey: Buffer, passphrase: string) {
-        this.privateKey = privateKey;
-        this.publicKey = publicKey;
-        this.passphrase = passphrase;
-    }
+    constructor(
+        private privateKey: Buffer,
+        private publicKey: Buffer,
+        private passphrase: string
+    ) {}
 
     public sign(payload: any): string {
         const { privateKey, passphrase, algorithm } = this;

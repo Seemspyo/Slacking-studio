@@ -13,7 +13,6 @@ import RedirectRoute from "./routes/app/redirect.route";
 /** Custom Modules */
 import virtualHost from './modules/virtual-host.module';
 import { AuthModule } from "./modules/auth.module";
-import Prenreder from "./modules/prerender.module";
 
 
 process.title = 'eunsatio-app';
@@ -33,8 +32,6 @@ new RedirectRoute(gate).route();
 new AppRoute(gate, authModule, { assignToken: false }).route();
 new AppRoute(blog, authModule).route();
 new AppRoute(playground, authModule).route();
-
-new Prenreder(app).enable();
 
 app.use(vhost(`${ DOMAIN }`, gate));
 app.use(vhost(`blog.${ DOMAIN }`, blog));
