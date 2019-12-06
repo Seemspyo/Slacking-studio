@@ -112,7 +112,7 @@ export class SlideDirective implements OnInit, AfterViewInit, OnDestroy {
   private pointerEventHandler(event: MouseEvent | TouchEvent): void {
     let x: number;
     if (event instanceof MouseEvent) x = event.clientX;
-    if (event instanceof TouchEvent) x = (event.touches[0] || event.changedTouches[0]).clientX;
+    else if (event instanceof TouchEvent) x = (event.touches[0] || event.changedTouches[0]).clientX;
 
     switch (event.type) {
       case 'mousedown':

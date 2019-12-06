@@ -374,7 +374,7 @@ export class ArticleWriteComponent implements OnInit, OnDestroy {
       const { title, editorContent, category } = this.formGroup.controls;
 
       title.setValue(this.article.decodeTitle(article.title));
-      editorContent.setValue(article.content);
+      editorContent.setValue(this.imagePathToAbsolute(article.content));
       category.setValue(article.category);
 
       this.images = article.images || []
@@ -392,6 +392,18 @@ export class ArticleWriteComponent implements OnInit, OnDestroy {
     else if (error instanceof DuplicationError) message = error.message;
 
     this.stickyBar.open(message);
+  }
+
+  private imagePathToAbsolute(html: string): string {
+    const el = this.renderer.createElement('div');
+    el.innerHTML = html;
+
+    for (const imgEl of Array.from(el.querySelectorAll('img') as Array<HTMLImageElement>)) {
+      const src = imgEl.getAttribute('src');
+      if (src && !src.includes('http')) this.renderer.setAttribute(imgEl, 'src', `https://${ window.location.hostname }${ src }`);
+    }
+
+    return el.innerHTML;
   }
 
 }

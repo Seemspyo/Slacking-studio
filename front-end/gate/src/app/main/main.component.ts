@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 /** Custom Modules */
 import { SlideDirective } from '../directives/slide.directive';
 import { UtilHelper } from '../helpers/util.helper';
-import { ResolveService } from '../servies/resolve.service';
+import { ResolveService } from '../services/resolve.service';
 
 /** Types */
 import { GateNavigationParam, ToggleNavOption } from '../@types';

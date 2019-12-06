@@ -1,8 +1,11 @@
 <template>
-    <div class="g">pp</div>
+    <div class="g">
+        pppp
+        <div class="g">한글</div>
+    </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 </style>
 
 <script lang="ts">

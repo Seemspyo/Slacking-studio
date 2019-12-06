@@ -37,7 +37,7 @@ import { settle } from 'src/app/animations/list-settle.animation';
 })
 export class ArticleListComponent implements OnInit, OnDestroy {
 
-  public articlePerLoad: number = 9;
+  public articlePerLoad: number = 6;
   public currentIndex: number = 0;
 
   public articleList: Array<ArticleDisplayable>;

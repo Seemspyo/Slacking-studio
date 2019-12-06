@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 /** Custom Modules */
 import { UtilHelper } from '../helpers/util.helper';
-import { ResolveService } from '../servies/resolve.service';
+import { ResolveService } from '../services/resolve.service';
 
 /** Types */
 import { FontStyles } from '../@types';
