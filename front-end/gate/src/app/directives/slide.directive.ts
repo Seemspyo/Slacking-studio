@@ -178,6 +178,7 @@ export class SlideDirective implements OnInit, AfterViewInit, OnDestroy {
     else this.slideToIndex(this.currentIndex);
 
     this.dragging = false;
+    this.intended = false;
     this.dragX = 0;
     this.prevX = void(0);
   }
