@@ -1,8 +1,9 @@
 /** Native Modules */
-import { Directive, Renderer2, ElementRef, OnInit, Input, AfterViewInit, OnChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Directive, Renderer2, ElementRef, OnInit, Input, AfterViewInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 /** Custom Modules */
 import { UtilHelper } from '../helpers/util.helper';
+import { DetectHelper } from '../helpers/detect.helper';
 
 /** Types */
 import { SlideDirectiveOption } from './@types';
@@ -35,11 +36,12 @@ export class SlideDirective implements OnInit, AfterViewInit, OnDestroy {
 
   private containerElWidth: number;
   private currentX: number = 0;
-  private downX: number = 0;
   private dragX: number = 0;
   private prevX: number = 0;
   private currentIndex: number;
   private transitionTimeout: number;
+  private detector = new DetectHelper();
+  private intended: boolean = false;
 
   constructor(
     private renderer: Renderer2,
@@ -59,6 +61,7 @@ export class SlideDirective implements OnInit, AfterViewInit, OnDestroy {
     if (!Array.isArray(option.attachTo)) option.attachTo = [option.attachTo]
 
     this.init();
+    this.update();
   }
 
   ngOnDestroy() {
@@ -110,64 +113,72 @@ export class SlideDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private pointerEventHandler(event: MouseEvent | TouchEvent): void {
-    let x: number;
-    if (event instanceof MouseEvent) x = event.clientX;
-    else if (event instanceof TouchEvent) x = (event.touches[0] || event.changedTouches[0]).clientX;
+    let
+    clientX: number,
+    clientY: number;
+
+    if (event instanceof MouseEvent) ({ clientX, clientY } = event);
+    else if (event instanceof TouchEvent) ({ clientX, clientY } = event.touches[0] || event.changedTouches[0]);
 
     switch (event.type) {
       case 'mousedown':
         event.preventDefault();
       case 'touchstart':
-        this.onDragStart(x);
+        this.detector.init(clientX, clientY);
+        this.onDragStart();
         break;
       case 'mousemove':
       case 'touchmove':
-        this.onDrag(x);
+        if (this.intended) this.onDrag(clientX);
+        else if (this.detector.detect('x', clientX, clientY)) {
+          this.intended = true;
+          this.onDrag(clientX);
+          this.detector.reset();
+        }
         break;
       case 'mouseup':
       case 'touchend':
-        this.onDragEnd(x);
+        this.onDragEnd();
+        this.detector.reset();
         break;
     }
   }
 
-  private onDragStart(x: number): void {
+  private onDragStart(): void {
     this.dragging = true;
-    this.downX =
-    this.prevX = x;
   }
 
   private onDrag(x: number): void {
     if (!this.dragging) return;
+    
+    if (typeof this.prevX === 'number') {
+      let increaseX = x - this.prevX;
 
-    let increaseX = x - this.prevX;
-    const
-    maxX = this.containerElWidth * this.option.maxDistance,
-    moveX = Math.abs(x - this.downX);
+      const
+      maxX = this.containerElWidth * this.option.maxDistance,
+      moveX = Math.abs(this.dragX + increaseX);
 
-    if (moveX > maxX) {
-      const overflowX = moveX - maxX;
+      if (moveX > maxX) {
+        const overflowX = moveX - maxX;
 
-      increaseX = overflowX < maxX ? increaseX * (1 - overflowX / maxX) : 0;
-    }
+        increaseX = overflowX < maxX ? increaseX * (1 - overflowX / maxX) : 0;
+      }
 
-    this.dragX += increaseX;
-    this.prevX = x;
+      this.dragX += increaseX;
+      this.prevX = x;
 
-    this.renderer.setStyle(this.option.slideEl, 'transform', `translateX(${ this.currentX + this.dragX }px)`);
+      this.renderer.setStyle(this.option.slideEl, 'transform', `translateX(${ this.currentX + this.dragX }px)`);
+    } else this.prevX = x;
   }
 
-  private onDragEnd(x: number): void {
-    const
-    distanceX = this.downX - x,
-    index = UtilHelper.confine(this.currentIndex + Math.sign(distanceX), this.itemsLeft.length - 1, 0);
+  private onDragEnd(): void {
+    const index = UtilHelper.confine(this.currentIndex - Math.sign(this.dragX), this.itemsLeft.length - 1, 0);
 
-    if (Math.abs(distanceX) > this.containerElWidth * this.option.minDistance) this.slideToIndex(index);
+    if (Math.abs(this.dragX) > this.containerElWidth * this.option.minDistance) this.slideToIndex(index);
     else this.slideToIndex(this.currentIndex);
 
     this.dragging = false;
     this.dragX = 0;
-    this.downX =
     this.prevX = void(0);
   }
 

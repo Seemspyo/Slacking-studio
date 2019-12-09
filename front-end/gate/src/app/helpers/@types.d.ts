@@ -3,3 +3,8 @@ export interface AssignOption {
     key?: string | number;
     deep?: boolean;
 }
+
+export interface Position {
+    x: number;
+    y: number;
+}
