@@ -12,8 +12,11 @@
 body { width: 100%; height: 100%; overflow: { x: hidden; y: auto; } }
 
 input, textarea, select, button { font-family: inherit; outline: none; }
+a { text-decoration: none; }
+li { list-style-type: none; }
 .quicksand { font-family: 'Quicksand', sans-serif; }
 .cookie { font-family: "CookieRun", cursive; }
+.n-gothic { font-family: "Nanum Gothic", "Cookie Run", sans-serif; }
 
 #playground {
   width: 100%; min-height: 100%;

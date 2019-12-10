@@ -1,9 +1,11 @@
 export default class Helper {
 
     static listen(el: any, type: string, listener: any): () => void {
-        el.addEventListener(type, listener);
+        if ((window as any).EventTarget && el instanceof EventTarget || el.addEventListener) {
+            el.addEventListener(type, listener);
 
-        return () => el.removeEventListener(type, listener);
+            return () => el.removeEventListener(type, listener);
+        }
     }
 
     static assignStyle(el: any, style: { [ key: string ]: string }): void {

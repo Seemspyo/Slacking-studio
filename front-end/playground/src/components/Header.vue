@@ -1,13 +1,14 @@
 <template>
     <header class="playground-header">
 
-        <h1 class="playground-header-title"><span class="quicksand">Slacking studio</span>Playground</h1>
+        <h1 class="playground-header-title"><a href="https://eunsatio.io" class="quicksand key-theme-item">Slacking studio</a>Playground</h1>
         <div class="playground-header-button">
-            <Button type="round" :centered="false" @click="toggleTab()">
+            <Button type="round" :centered="false" @click.stop="toggleTab()">
                 <i class="playground-header-config-icon material-icons">palette</i>
             </Button>
         </div>
 
+        <transition name="tab">
         <template v-if="tabVisibility">
             <div class="playground-header-tab">
 
@@ -17,7 +18,7 @@
                     </div>
                     <div class="field-item-container">
                         <div class="field-item" v-for="theme of backgroundThemes" :key="theme.id">
-                            <Button type="round" :centered="true" @click="changeBackgroundColor(theme)">
+                            <Button type="round" :centered="true" @click.stop="changeBackgroundColor(theme)">
                                 <div class="field-button" :class="{ selected: theme.selected }" :style="{ backgroundColor: theme.color }"></div>
                             </Button>
                         </div>
@@ -30,7 +31,7 @@
                     </div>
                     <div class="field-item-container">
                         <div class="field-item" v-for="theme of keyThemes" :key="theme.id">
-                            <Button type="round" :centered="true" @click="changeKeyColor(theme)">
+                            <Button type="round" :centered="true" @click.stop="changeKeyColor(theme)">
                                 <div class="field-button" :class="{ selected: theme.selected }" :style="{ backgroundColor: theme.color }"></div>
                             </Button>
                         </div>
@@ -39,6 +40,7 @@
 
             </div>
         </template>
+        </transition>
 
     </header>
 </template>
@@ -60,9 +62,8 @@
             letter-spacing: 0.1em;
             line-height: 100%;
 
-            span {
+            a.key-theme-item {
                 font-size: 0.6em;
-                color: $MILD-GREEN;
                 display: block;
                 letter-spacing: 0.22em;
             }
@@ -139,21 +140,45 @@
     }
 </style>
 
+<style lang="scss" scoped>
+
+    .tab-enter-active, .tab-leave-active {
+        transition: {
+            property: opacity, transform;
+            duration: 500ms;
+        }
+    }
+
+    .tab-enter {
+        opacity: 0;
+        transform: translateY(10%);
+
+        &-to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    }
+
+    .tab-leave-to {
+        transform: translateY(10%);
+        opacity: 0;
+    }
+
+</style>
+
 <style lang="scss">
     @import '@/variables';
 
     .playground-header-button button.playground-button {
         width: 46px; height: 46px;
-        --ripple-background-color: #{ $MILD-GREEN; };
 
         i.playground-header-config-icon {
-            color: lighten($MILD-GREEN, 10%);
             transition: color 300ms;
             font-size: 2rem;
         }
 
     }
-
 </style>
 
 <script lang="ts">
@@ -169,6 +194,10 @@ import { ThemeInfo } from './@types';
 /** Datas */
 import { backgroundThemes, keyThemes } from '../data/theme.data';
 
+/** Custom Modules */
+import Helper from '../modules/helper.module';
+import CacheModule from '../modules/cache.module';
+
 
 @Component({
     components: {
@@ -181,15 +210,21 @@ export default class Header extends Vue {
     public backgroundThemes: Array<ThemeInfo> = Header.assignSelectedProperty(backgroundThemes);
     public keyThemes: Array<ThemeInfo> = Header.assignSelectedProperty(keyThemes);
 
+    private removeGlobalEvent: () => void;
+
     @Prop(Boolean) animating?: boolean;
 
+    private backgroundThemeCache = new CacheModule('background-theme');
+    private keyThemeCache = new CacheModule('key-theme');
+
     created() {
-        this.changeBackgroundColor(this.backgroundThemes[0]);
-        this.changeKeyColor(this.keyThemes[0]);
+        this.initTheme();
     }
 
-    public toggleTab(): void {
-        this.tabVisibility = !this.tabVisibility;
+    public toggleTab(value?: boolean): void {
+        this.tabVisibility = typeof value !== 'boolean' ? !this.tabVisibility : value;
+
+        this.afterTabToggle();
     }
 
     public changeBackgroundColor(theme: ThemeInfo): void {
@@ -202,7 +237,8 @@ export default class Header extends Vue {
         }
 
         theme.selected = true;
-        this.$emit('theme', { id: theme.id, color: theme.color, type: 'background-color' });
+        this.$emit('themechange', { id: theme.id, color: theme.color, type: 'background-theme' });
+        this.backgroundThemeCache.set(theme.id);
     }
 
     public changeKeyColor(theme: ThemeInfo): void {
@@ -213,11 +249,35 @@ export default class Header extends Vue {
         }
 
         theme.selected = true;
-        this.$emit('theme', { color: theme.color, type: 'key-color' });
+        this.$emit('themechange', { id: theme.id, color: theme.color, type: 'key-theme' });
+        this.keyThemeCache.set(theme.id);
     }
 
     private static assignSelectedProperty(themes: Array<ThemeInfo>): Array<ThemeInfo> {
         return themes.map(theme => ({ ...theme, selected: false }));
+    }
+
+    private afterTabToggle(): void {
+        switch (this.tabVisibility) {
+            case true:
+                this.removeGlobalEvent = Helper.listen(window, 'click', () => {
+                    this.toggleTab(false);
+                    this.removeGlobalEvent = void(0);
+                });
+                break;
+            case false:
+                if (this.removeGlobalEvent) this.removeGlobalEvent = void(0);
+                break;
+        }
+    }
+
+    private initTheme(): void {
+        const
+        backgroundThemeId = this.backgroundThemeCache.get(),
+        keyThemeId = this.keyThemeCache.get();
+
+        this.changeBackgroundColor(backgroundThemeId && this.backgroundThemes.find(theme => theme.id === backgroundThemeId) || this.backgroundThemes[0]);
+        this.changeKeyColor(keyThemeId && this.keyThemes.find(theme => theme.id === keyThemeId) || this.keyThemes[0]);
     }
 
 }

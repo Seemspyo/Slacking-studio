@@ -1,14 +1,18 @@
 <template>
-  <main class="playground-main" :style="getBackgroundColor()" :id="getId()">
+  <main class="playground-main" :background-theme="getBackgroundThemeId()" :key-theme="getKeyThemeId()">
+
     <div class="playground-main-animation-container">
       <transition name="ripple">
-        <div class="playground-main-animation" v-if="animated" :style="getBackgroundColor()"></div>
+        <div class="playground-main-animation" v-if="animated" :style="getBackgroundColor()" ref="animationEl"></div>
       </transition>
     </div>
+
     <div class="playground-main-content">
-      <Header @theme="changeTheme($event)" :animating="animated"></Header>
+      <Header @themechange="changeTheme($event)" :animating="animated"></Header>
       <List></List>
+      <Footer></Footer>
     </div>
+
   </main>
 </template>
 
@@ -17,8 +21,8 @@
 
   main.playground-main {
     width: 100%; height: 100%;
+    min-height: 100vh;
     display: block;
-    background-color: $BACKGROUND-COLOR;
     flex-grow: 1;
     transition: {
       property: background-color;
@@ -56,7 +60,7 @@
     transition: {
       property: transform;
       duration: 1000ms;
-      timing-function: cubic-bezier(.42,.52,.51,.69);
+      timing-function: $RIPPLE-TIMING-FUNCTION;
     }
   }
 
@@ -84,6 +88,93 @@
 
 </style>
 
+<style lang="scss">
+  @import '@/variables';
+
+  $background-themes: (
+    "shy-black": #333,
+    "absolute-white": #fff
+  );
+  $key-themes: (
+    "mild-green": $MILD-GREEN,
+    "pink": hotpink
+  );
+
+  @mixin HeaderStyle($color) {
+    header.playground-header h1.playground-header-title {
+      color: $color;
+      transition: color 500ms linear 500ms;
+    }
+  }
+
+  main.playground-main {
+
+    .key-theme-item {
+      transition: color 300ms;
+    }
+
+    @each $name, $color in $background-themes {
+      $text-color: if(lightness($color) > lightness(#888), #333, #fff);
+
+      &[background-theme=#{ $name }] {
+        background-color: $color;
+
+        header.playground-header h1.playground-header-title {
+          color: $text-color;
+          transition: color 500ms linear 500ms;
+        }
+
+        a.item-container .item-content {
+          background-color: if(lightness($color) > lightness(#888), darken($color, 10%), lighten($color, 5%));
+          transition: background-color 500ms;
+
+          h2.item-content-title {
+            color: $text-color;
+            transition: color 500ms;
+          }
+
+          h4.item-content-info, p.item-content-description {
+            color: darken($text-color, 10%);
+          }
+
+        }
+
+        footer.playground-footer p.playground-footer-copyright {
+          color: $text-color;
+          transition: color 500ms;
+        }
+
+      }
+    }
+
+    @each $name, $color in $key-themes {
+      &[key-theme=#{ $name }] {
+
+        header.playground-header h1.playground-header-title a {
+          color: $color;
+        }
+
+        .playground-header-button button.playground-button {
+          --ripple-background-color: #{ $color };
+
+          i.playground-header-config-icon {
+            color: $color;
+          }
+
+        }
+
+        a.item-container .item-content h3.item-content-title {
+          color: $color;
+          transition: color 500ms;
+        }
+
+      }
+    }
+
+  }
+
+</style>
+
 <script lang="ts">
 import Vue from "vue";
 import { Component } from 'vue-property-decorator';
@@ -91,29 +182,32 @@ import { Component } from 'vue-property-decorator';
 /** Components */
 import Header from '@/components/Header.vue';
 import List from "@/components/List.vue";
+import Footer from '@/components/Footer.vue';
 
 /** Types */
 import { ThemeInfo } from '../components/@types';
 
 /** Custom Modules */
-import Helper from "../modules/helper";
+import Helper from "../modules/helper.module";
 
 
 @Component({
   components: {
     Header,
-    List
+    List,
+    Footer
   }
 })
 export default class Main extends Vue {
 
   public backgroundTheme?: ThemeInfo;
+  public keyTheme?: ThemeInfo;
 
   public animated: boolean = false;
 
   public async changeTheme(theme: ThemeInfo): Promise<void> {
     switch (theme.type) {
-      case 'background-color':
+      case 'background-theme':
         const notFirst = Boolean(this.backgroundTheme);
         this.backgroundTheme = theme;
 
@@ -123,17 +217,24 @@ export default class Main extends Vue {
           this.animated = false;
         }
         break;
-      case 'key-color':
+      case 'key-theme':
+        this.keyTheme = theme;
         break;
     }
+
+    this.$forceUpdate();
   }
 
   public getBackgroundColor(): { backgroundColor?: string } {
     return { backgroundColor: this.backgroundTheme && this.backgroundTheme.color }
   }
 
-  public getId(): string {
+  public getBackgroundThemeId(): string {
     return this.backgroundTheme && this.backgroundTheme.id || 'no-theme';
+  }
+
+  public getKeyThemeId(): string {
+    return this.keyTheme && this.keyTheme.id || 'no-theme';
   }
 
 }

@@ -4,13 +4,13 @@
         class="playground-button" :class="{ 'button-pressed': pressed }"
         :button-type="styleType"
         type="button"
-        @click="$emit('click')"
-        @mouseenter="$emit('mouseenter')"
-        @mouseleave="$emit('mouseleave')"
-        @mousemove="$emit('mousemove')"
-        @touchstart="$emit('touchstart')"
-        @touchend="$emit('touchend')"
-        @touchmove="$emit('touchmove')"
+        @click="$emit('click', $event)"
+        @mouseenter="$emit('mouseenter', $event)"
+        @mouseleave="$emit('mouseleave', $event)"
+        @mousemove="$emit('mousemove', $event)"
+        @touchstart="$emit('touchstart', $event)"
+        @touchend="$emit('touchend', $event)"
+        @touchmove="$emit('touchmove', $event)"
     >
         <div class="playground-button-content">
             <slot></slot>
@@ -19,6 +19,8 @@
 </template>
 
 <style lang="scss">
+    @import '@/variables';
+
     $DURATION: 500ms;
     $DEFAULT-BACKGROUND-COLOR: #000;
 
@@ -109,7 +111,7 @@
                 duration: $DURATION * 2;
                 iteration-count: infinite;
                 direction: alternate;
-                timing-function: cubic-bezier(.42,.52,.51,.69);
+                timing-function: $RIPPLE-TIMING-FUNCTION;
             }
             background-color: $DEFAULT-BACKGROUND-COLOR;
             background-color: var(--ripple-background-color, #{ $DEFAULT-BACKGROUND-COLOR });
@@ -123,7 +125,7 @@ import Vue from 'vue';
 import { Prop, Component } from 'vue-property-decorator';
 
 /** Custom Modules */
-import Helper from '../modules/helper';
+import Helper from '../modules/helper.module';
 
 /** Types */
 import { PointerXY } from './@types';
