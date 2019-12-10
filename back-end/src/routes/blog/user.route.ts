@@ -11,7 +11,7 @@ import { MulterFile } from "../../modules/@types";
 import multer from "multer";
 
 /** Models */
-import { User, Comment } from "../../connections/blog.connection";
+import { User } from "../../connections/blog.connection";
 
 
 export default class UserRoute extends BlogRoute {
@@ -134,8 +134,6 @@ export default class UserRoute extends BlogRoute {
         try {
             const user = await User.findOneAndDelete({ email });
             if (user.profileImagePath) removeFile(resolve(__dirname, user.profileImagePath));
-
-            await Comment.deleteMany({ author: user._id });
 
             res.status(200).json({ result: 1 });
         } catch (error) {

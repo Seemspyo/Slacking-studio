@@ -9,7 +9,8 @@ module.exports = {
     entry: {
         http: './src/http.ts',
         app: './src/app.ts',
-        blog: './src/blog.ts'
+        blog: './src/blog.ts',
+        playground: './src/playground.ts'
     },
     output: {
         filename: `[name].js`,

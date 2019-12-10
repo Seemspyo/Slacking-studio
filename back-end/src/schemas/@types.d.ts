@@ -48,3 +48,23 @@ export interface BlogComment extends Document {
     parent?: Schema.Types.ObjectId;
     deleted?: boolean;
 }
+
+
+export interface PlayGroundItem extends Document {
+    thumbnailImagePath?: string;
+    title: {
+        ko: string;
+        en?: string;
+    }
+    uri: string;
+    description?: string;
+    author?: string;
+    createdAt?: Date;
+    status?: boolean;
+}
+
+export interface PlayGroundUser extends Document {
+    username: string;
+    password: string;
+    authorized?: boolean;
+}

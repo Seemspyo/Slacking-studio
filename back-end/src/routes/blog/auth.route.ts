@@ -85,7 +85,7 @@ export default class AuthRoute extends BlogRoute {
             const
             password = this.cipher.publicEncrypt(req.body.password),
             { username, nickname, email, introduction, profileImageFileName } = req.body,
-            profileImagePath = profileImage ? uploader.toRelativePath(profileImage.path) : void(0);
+            profileImagePath = profileImage && uploader.toRelativePath(profileImage.path);
 
             const user = new User({
                 username,
