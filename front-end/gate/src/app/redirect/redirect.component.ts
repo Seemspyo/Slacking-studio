@@ -138,7 +138,7 @@ export class RedirectComponent implements OnInit, AfterViewInit {
         option.family = 'Ubuntu, sans-serif';
         break;
       case 'playground':
-        option.family = 'Mali, cursive';
+        option.family = 'CookieRun, cursive';
         break;
     }
 
