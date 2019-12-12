@@ -30,4 +30,8 @@ export default class CacheModule {
         return data;
     }
 
+    public clear(): void {
+        this.storage.removeItem(this.id);
+    }
+
 }

@@ -19,4 +19,5 @@ export interface GalleryItem {
     author?: string;
     createdAt?: Date;
     status?: boolean;
+    tags?: Array<string>;
 }

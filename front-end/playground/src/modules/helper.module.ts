@@ -21,4 +21,13 @@ export default class Helper {
         return new Promise(resolve => window.setTimeout(resolve, duration));
     }
 
+    static toQueryString(obj: object): string {
+        let query: string = '';
+
+        for (const key in obj) if (obj[key]) query = query.concat(`&${ key }=${ obj[key] }`);
+        if (query) query = '?'.concat(query.replace('&', ''));
+
+        return query;
+    }
+
 }

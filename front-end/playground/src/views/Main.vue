@@ -7,10 +7,16 @@
       </transition>
     </div>
 
+    <div class="playground-main-background-container">
+      <canvas class="playground-main-background" ref="background"></canvas>
+    </div>
+
     <div class="playground-main-content">
       <Header @themechange="changeTheme($event)" :animating="animated"></Header>
       <List></List>
-      <Footer></Footer>
+      <div class="playground-main-footer-container">
+        <Footer></Footer>
+      </div>
     </div>
 
   </main>
@@ -22,7 +28,7 @@
   main.playground-main {
     width: 100%; height: 100%;
     min-height: 100vh;
-    display: block;
+    display: flex;
     flex-grow: 1;
     transition: {
       property: background-color;
@@ -31,10 +37,17 @@
     }
 
     .playground-main-content {
-      display: block;
+      display: flex;
+      flex-direction: column;
       width: 100%; min-height: 100%;
       position: relative;
-      z-index: 1;
+      z-index: 2;
+      flex-grow: 1;
+
+      .playground-main-footer-container {
+        margin-top: auto;
+      }
+
     }
 
   }
@@ -56,6 +69,20 @@
 
   }
 
+  .playground-main-background-container {
+    z-index: 1;
+    overflow: hidden;
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+
+    canvas.playground-main-background {
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+
+  }
+
   .ripple-enter-active {
     transition: {
       property: transform;
@@ -66,11 +93,9 @@
 
   .ripple-enter {
     transform: scale(0);
-
     &-to {
       transform: scale(1.2);
     }
-
   }
 
   .ripple-leave-active {
@@ -79,11 +104,9 @@
   }
 
   .ripple-leave {
-
     &-to {
       opacity: 0;
     }
-
   }
 
 </style>
@@ -97,7 +120,14 @@
   );
   $key-themes: (
     "mild-green": $MILD-GREEN,
-    "pink": hotpink
+    "lime": #c2db1d,
+    "banana-yellow": #f0d524,
+    "crimson": #EB4034,
+    "hotpink": #FF69B4,
+    "rose-pink": #FC3D66,
+    "ocean-blue": #1d8fdb,
+    "wood-mint": #18c9c4,
+    "indigo": #4b0082
   );
 
   @mixin HeaderStyle($color) {
@@ -139,6 +169,19 @@
 
         }
 
+        .playground-gallery form.playground-gallery-form input.playground-gallery-form-input {
+          border-bottom-color: invert($text-color);
+
+          &::placeholder {
+            color: invert($text-color);
+          }
+
+        }
+
+        p.playground-gallery-noitem-text {
+          color: invert($text-color);
+        }
+
         footer.playground-footer p.playground-footer-copyright {
           color: $text-color;
           transition: color 500ms;
@@ -165,7 +208,23 @@
 
         a.item-container .item-content h3.item-content-title {
           color: $color;
-          transition: color 500ms;
+        }
+
+        .playground-gallery form.playground-gallery-form {
+
+          input.playground-gallery-form-input {
+            color: $color;
+
+            &:focus::placeholder {
+              color: $color;
+            }
+
+          }
+
+          span.playground-gallery-form-border {
+            background-color: $color;
+          }
+
         }
 
       }
@@ -189,6 +248,9 @@ import { ThemeInfo } from '../components/@types';
 
 /** Custom Modules */
 import Helper from "../modules/helper.module";
+import BackgroundRippleModule from '../modules/background-ripple.module';
+import SecretAdminModule from '../privates/admin.private';
+import AuthModule from "../modules/auth.module";
 
 
 @Component({
@@ -204,6 +266,20 @@ export default class Main extends Vue {
   public keyTheme?: ThemeInfo;
 
   public animated: boolean = false;
+  public dialogVisibility: boolean = false;
+  public formValue: string = '';
+  private events: Array<() => void> = []
+
+  private auth = new AuthModule();
+
+  mounted() {
+    this.initBackground();
+    this.initSecretModule();
+  }
+
+  destroyed() {
+    for (const remove of this.events) remove();
+  }
 
   public async changeTheme(theme: ThemeInfo): Promise<void> {
     switch (theme.type) {
@@ -235,6 +311,37 @@ export default class Main extends Vue {
 
   public getKeyThemeId(): string {
     return this.keyTheme && this.keyTheme.id || 'no-theme';
+  }
+
+  public async signIn(): Promise<void> {
+    const [username, password] = this.formValue.split('|');
+
+    try {
+      await this.auth.signIn(username, password);
+      alert('Activate Master mode');
+      this.dialogVisibility = false;
+      this.formValue = '';
+    } catch (error) {
+      this.dialogVisibility = false;
+    }
+  }
+
+  private async initBackground(): Promise<void> {
+    const backgroundModule = new BackgroundRippleModule(this.$refs.background as HTMLCanvasElement);
+    await backgroundModule.init();
+
+    this.events = [
+      Helper.listen(window, 'pointerdown', e => backgroundModule.action(e.clientX, e.clientY)),
+      Helper.listen(window, 'resize', () => backgroundModule.update())
+    ]
+  }
+
+  private initSecretModule(): void {
+    const secretModule = new SecretAdminModule();
+    secretModule.listen();
+    secretModule.onUnlock = () => this.dialogVisibility = true;
+
+    this.events.push(() => secretModule.destroy());
   }
 
 }

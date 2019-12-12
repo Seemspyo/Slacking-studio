@@ -2,7 +2,7 @@
     <header class="playground-header">
 
         <h1 class="playground-header-title"><a href="https://eunsatio.io" class="quicksand key-theme-item">Slacking studio</a>Playground</h1>
-        <div class="playground-header-button">
+        <div class="playground-header-button" @pointerdown.stop>
             <Button type="round" :centered="false" @click.stop="toggleTab()">
                 <i class="playground-header-config-icon material-icons">palette</i>
             </Button>
@@ -10,7 +10,7 @@
 
         <transition name="tab">
         <template v-if="tabVisibility">
-            <div class="playground-header-tab">
+            <div class="playground-header-tab" @click.stop  @pointerdown.stop>
 
                 <div class="playground-header-tab-field">
                     <div class="field-label-container">
@@ -85,6 +85,7 @@
             padding: $GLOBAL-PADDING;
             background-color: #232323;
             box-shadow: 0 5px 5px rgba(#000, .2);
+            z-index: 3;
 
             .playground-header-tab-field {
                 width: 100%;

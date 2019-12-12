@@ -1,0 +1,1 @@
+export const WAS_HOST = 'http://localhost:57259';
