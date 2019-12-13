@@ -9,7 +9,11 @@ export interface ThemeInfo {
 
 export interface GalleryItem {
     _id?: string;
-    thumbnailImagePath?: string;
+    thumbnailImage?: {
+        file?: File;
+        name?: string;
+        path?: string;
+    }
     title: {
         ko: string;
         en: string;

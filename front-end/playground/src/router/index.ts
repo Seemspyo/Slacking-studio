@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Main from "../views/Main.vue";
+import Main from "@/views/Main.vue";
+import AuthModule from '@/modules/auth.module';
 
 Vue.use(VueRouter);
 
@@ -11,9 +12,18 @@ const routes = [
     component: Main
   },
   {
+    path: '/master',
+    name: 'master',
+    beforeEnter: async (to, from, next) => {
+      if (AuthModule.sign) next();
+      else next({ name: 'notfound', params: [ to.fullPath, '' ], replace: true });
+    },
+    component: () => import('@/views/Master.vue')
+  },
+  {
     path: '**',
     name: 'notfound',
-    component: () => import('../views/NotFound.vue')
+    component: () => import('@/views/NotFound.vue')
   }
 ]
 

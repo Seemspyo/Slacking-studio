@@ -10,7 +10,7 @@
             <div class="playground-gallery-item" v-for="item in list" :key="item.id">
 
                 <a :href="item.uri" target="_blank" class="item-container">
-                    <div class="item-thumbnail-image" :style="{ backgroundImage: `url(${ item.thumbnailImagePath })` }"></div>
+                    <div class="item-thumbnail-image" :style="{ backgroundImage: `url(${ item.thumbnailImage && item.thumbnailImage.path })` } | escape"></div>
 
                     <div class="item-content">
                         <h2 class="item-content-title">{{ item.title.ko }}</h2>
@@ -248,27 +248,17 @@ import ItemModule from '../modules/item.module';
             if (value && !(value instanceof Date)) value = new Date(value);
 
             return moment(value).fromNow();
+        },
+        escape(value: any): string {
+            for (const key in value) value[key] = value[key].replace(/\\/g, '\/');
+            return value;
         }
     }
 })
 export default class List extends Vue {
 
     public list: Array<GalleryItem> = []
-    private rawList: Array<GalleryItem> = [
-        {
-            thumbnailImagePath: 'https://www.pixijs.com/wp/wp-content/uploads/gg-540x312.jpg',
-            title: {
-                ko: '테스트 글이다아아아아',
-                en: 'What a TEEEEEEEEEST'
-            },
-            uri: 'https://google.com',
-            description: '테스트 프로젝트여\n앙',
-            author: 'SeemsPyo',
-            createdAt: new Date('2019-12-10'),
-            status: true,
-            tags: ['Test', 'Project', 'Anarchy']
-        }
-    ]
+    private rawList: Array<GalleryItem> = []
 
     public searchValue: string = '';
 
@@ -290,10 +280,10 @@ export default class List extends Vue {
 
     private async loadList(): Promise<void> {
         try {
-            this.rawList = this.rawList.concat(await this.itemModule.getItemAll({ status: true }));
+            this.rawList = await this.itemModule.getItemAll({ status: true });
             this.list = this.rawList;
         } catch (error) {
-            console.log(error);
+            alert('An error occurred.');
         }
     }
 

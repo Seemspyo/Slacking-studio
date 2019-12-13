@@ -1,1 +1,1 @@
-export const WAS_HOST = 'http://localhost:57259';
+export const WAS_HOST = 'https://playground.eunsatio.io:57259';

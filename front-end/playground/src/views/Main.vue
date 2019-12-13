@@ -1,6 +1,5 @@
 <template>
   <main class="playground-main" :background-theme="getBackgroundThemeId()" :key-theme="getKeyThemeId()">
-
     <div class="playground-main-animation-container">
       <transition name="ripple">
         <div class="playground-main-animation" v-if="animated" :style="getBackgroundColor()" ref="animationEl"></div>
@@ -17,6 +16,14 @@
       <div class="playground-main-footer-container">
         <Footer></Footer>
       </div>
+    </div>
+
+    <div class="playground-form-container" v-if="dialogVisibility" ref="form" @click="closeDialog($event.target)" @pointerdown.stop>
+      <form class="playground-form" @submit.prevent="signIn()" v-if="signable()">
+        <input class="playground-form-input" type="password" v-model="formValue" />
+        <Button type="submit">Sure?</Button>
+      </form>
+      <Button type="button" v-else @click="signOut()">Unsure?</Button>
     </div>
 
   </main>
@@ -74,11 +81,34 @@
     overflow: hidden;
     position: fixed;
     top: 0; right: 0; bottom: 0; left: 0;
+    width: 100%; height: 100%;
 
     canvas.playground-main-background {
       position: absolute;
       top: 0; right: 0; bottom: 0; left: 0;
       width: 100%; height: 100%;
+    }
+
+  }
+
+  .playground-form-container {
+    z-index: 9;
+    overflow: hidden;
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(#000, .4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    form.playground-form {
+
+      input.playground-form-input {
+        border-bottom: solid 2px #000;
+        background-color: transparent;
+      }
+
     }
 
   }
@@ -242,6 +272,7 @@ import { Component } from 'vue-property-decorator';
 import Header from '@/components/Header.vue';
 import List from "@/components/List.vue";
 import Footer from '@/components/Footer.vue';
+import Button from '@/components/Button.vue';
 
 /** Types */
 import { ThemeInfo } from '../components/@types';
@@ -257,7 +288,8 @@ import AuthModule from "../modules/auth.module";
   components: {
     Header,
     List,
-    Footer
+    Footer,
+    Button
   }
 })
 export default class Main extends Vue {
@@ -324,6 +356,21 @@ export default class Main extends Vue {
     } catch (error) {
       this.dialogVisibility = false;
     }
+  }
+
+  public signOut(): void {
+    this.auth.signOut();
+    alert('Deactivate Master mode');
+    this.formValue = '';
+    this.dialogVisibility = false;
+  }
+
+  public signable(): boolean {
+    return !AuthModule.sign;
+  }
+
+  public closeDialog(target: EventTarget): void {
+    if (target === this.$refs.form) this.dialogVisibility = false;
   }
 
   private async initBackground(): Promise<void> {

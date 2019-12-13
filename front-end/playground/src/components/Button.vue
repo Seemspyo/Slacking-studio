@@ -3,7 +3,7 @@
         :id="id"
         class="playground-button" :class="{ 'button-pressed': pressed }"
         :button-type="styleType"
-        type="button"
+        :type="buttonType"
         @click="$emit('click', $event)"
         @mouseenter="$emit('mouseenter', $event)"
         @mouseleave="$emit('mouseleave', $event)"
@@ -137,8 +137,9 @@ export default class Button extends Vue {
     private detachFuncs: Array<() => void> = []
 
     @Prop(Boolean) centered?: boolean;
-    @Prop() type?: 'round' | 'square';
+    @Prop() theme?: 'round' | 'square';
     @Prop() id?: string;
+    @Prop() type?: 'submit' | 'button';
 
     public pressed: boolean = false;
 
@@ -151,7 +152,11 @@ export default class Button extends Vue {
     }
 
     public get styleType(): string {
-        return this.type || 'square';
+        return this.theme || 'square';
+    }
+
+    public get buttonType(): string {
+        return this.type || 'button';
     }
 
     private attach(): void {

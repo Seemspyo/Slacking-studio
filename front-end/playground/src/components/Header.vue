@@ -3,7 +3,7 @@
 
         <h1 class="playground-header-title"><a href="https://eunsatio.io" class="quicksand key-theme-item">Slacking studio</a>Playground</h1>
         <div class="playground-header-button" @pointerdown.stop>
-            <Button type="round" :centered="false" @click.stop="toggleTab()">
+            <Button theme="round" :centered="false" @click.stop="toggleTab()">
                 <i class="playground-header-config-icon material-icons">palette</i>
             </Button>
         </div>
@@ -18,7 +18,7 @@
                     </div>
                     <div class="field-item-container">
                         <div class="field-item" v-for="theme of backgroundThemes" :key="theme.id">
-                            <Button type="round" :centered="true" @click.stop="changeBackgroundColor(theme)">
+                            <Button theme="round" :centered="true" @click.stop="changeBackgroundColor(theme)">
                                 <div class="field-button" :class="{ selected: theme.selected }" :style="{ backgroundColor: theme.color }"></div>
                             </Button>
                         </div>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="field-item-container">
                         <div class="field-item" v-for="theme of keyThemes" :key="theme.id">
-                            <Button type="round" :centered="true" @click.stop="changeKeyColor(theme)">
+                            <Button theme="round" :centered="true" @click.stop="changeKeyColor(theme)">
                                 <div class="field-button" :class="{ selected: theme.selected }" :style="{ backgroundColor: theme.color }"></div>
                             </Button>
                         </div>

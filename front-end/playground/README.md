@@ -1,24 +1,7 @@
 # Playground
 
-## Project setup
-```
-npm install
-```
+This project was generated with [Vue CLI](https://github.com/vuejs/vue-cli) version 4.1.0.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+# Live Example
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+You can check live example at [Slacking studio Playground](https://playground.eunsatio.io)

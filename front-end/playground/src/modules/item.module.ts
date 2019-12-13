@@ -20,11 +20,11 @@ export default class ItemModule extends HttpModule {
         return this.get(`items${ options && Helper.toQueryString(options) || '' }`);
     }
 
-    public createItem(item: GalleryItem): Promise<HttpResultResponse> {
+    public createItem(item: FormData): Promise<HttpResultResponse> {
         return this.post('/item', item);
     }
 
-    public updateItem(id: string, item: GalleryItem): Promise<HttpResultResponse> {
+    public updateItem(id: string, item: FormData): Promise<HttpResultResponse> {
         return this.put(`/item/${ id }`, item);
     }
 

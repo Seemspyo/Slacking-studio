@@ -38,11 +38,11 @@ export default class BackgroundRippleModule {
         stage.addChild(filter.sprite);
         stage.filters.push(filter.filter);
 
-        const tick = this.tick(() => {
+        const removeTick = this.tick(() => {
             filter.update();
 
             if (this.isInvisible(filter.sprite)) {
-                tick();
+                removeTick();
                 stage.filters.splice(stage.filters.indexOf(filter.filter), 1);
                 stage.removeChild(filter.sprite);
                 filter.sprite.destroy();
