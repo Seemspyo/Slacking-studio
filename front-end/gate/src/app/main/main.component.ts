@@ -45,8 +45,12 @@ export class MainComponent implements OnInit {
   public navigate(nav: GateNavigationParam, event?: MouseEvent): void {
     if (event) event.preventDefault();
 
-    this.resolver.resolveAfter = 800;
-    this.router.navigate([nav.path], { skipLocationChange: true });
+    if (!this.isIE()) {
+      this.resolver.resolveAfter = 800;
+      this.router.navigate([nav.path], { skipLocationChange: true });
+    } else {
+      window.location.href = nav.uri;
+    }
   }
 
   public onUserAction(event: MouseEvent, nav: GateNavigationParam): void {
@@ -76,6 +80,12 @@ export class MainComponent implements OnInit {
 
     this.currentNav = targetNav;
     if (option.toggleSlide) this.slideDirective.slideToIndex(this.navList.indexOf(this.currentNav));
+  }
+
+  private isIE(): boolean {
+    const agent = window.navigator.userAgent.toLowerCase();
+
+    return navigator.appName == 'Netscape' && agent.indexOf('trident') != -1 || agent.indexOf("msie") != -1;
   }
 
 }
