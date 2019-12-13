@@ -51,7 +51,10 @@ export interface BlogComment extends Document {
 
 
 export interface PlayGroundItem extends Document {
-    thumbnailImagePath?: string;
+    thumbnailImage?: {
+        name: string;
+        path: string;
+    }
     title: {
         ko: string;
         en?: string;
@@ -61,6 +64,7 @@ export interface PlayGroundItem extends Document {
     author?: string;
     createdAt?: Date;
     status?: boolean;
+    tags?: Array<string>;
 }
 
 export interface PlayGroundUser extends Document {

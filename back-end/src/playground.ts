@@ -37,4 +37,4 @@ new ItemRoute(app, { auth, error: errorHandler }).route();
 new FallbackRoute(app);
 
 https.createServer(getCert('playground.eunsatio.io'), app)
-.listen(PORT, () => console.log(`Blog Server running on port ${ PORT }`));
+.listen(PORT, () => console.log(`Playground Server running on port ${ PORT }`));

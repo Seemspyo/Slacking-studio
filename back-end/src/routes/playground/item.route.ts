@@ -25,7 +25,7 @@ export default class ItemRoute extends Route {
 
         this.routes = [
             { method: 'get', path: '/items', handler: this.getItemAll.bind(this) },
-            { method: 'all', path: '/item', handler: this.checkAuthority.bind(this) },
+            { method: 'post', path: '/item', handler: this.checkAuthority.bind(this) },
             { method: 'post', path: '/item', handler: this.createItem.bind(this) },
             { method: 'all', path: '/item/:id', handler: this.checkAuthority.bind(this) },
             { method: 'put', path: '/item/:id', handler: this.updateItem.bind(this) },
@@ -48,7 +48,7 @@ export default class ItemRoute extends Route {
             if (status && status === 'true') criteria.status = true;
             else {
                 const user = this.auth.userTokenCheck(req.headers);
-                if (!user) throw new ForbiddenError();
+                if (!(user && user.authorized)) throw new ForbiddenError();
             }
 
             const items = await Item.find(criteria)
@@ -65,7 +65,7 @@ export default class ItemRoute extends Route {
             this.auth.appTokenCheck(req);
 
             const user = this.auth.userTokenCheck(req.headers);
-            if (!user) throw new ForbiddenError();
+            if (!(user && user.authorized)) throw new ForbiddenError();
 
             next();
         } catch (error) {
@@ -75,21 +75,25 @@ export default class ItemRoute extends Route {
 
     private async createItem(req: Request, res: Response): Promise<void> {
         const uploader = new UploadModule('/item/images', 'thumbnailImage', '../host/playground/data', 'thumbnail-img');
-        let thumbnailImage: MulterFile;
+        let thumbnail: MulterFile;
 
         try {
-            thumbnailImage = (await uploader.upload(req)) as MulterFile;
+            thumbnail = (await uploader.upload(req)) as MulterFile;
 
-            const { title, uri, description, author, status } = req.body;
+            const { thumbnailImage, title, uri, description, author, status, tags } = req.body;
 
             const item = new Item({
-                thumbnailImagePath: thumbnailImage && uploader.toRelativePath(thumbnailImage.path),
+                thumbnailImage: thumbnail && {
+                    path: uploader.toRelativePath(thumbnail.path),
+                    name: thumbnailImage.name
+                },
                 title,
                 uri,
                 description,
                 author,
                 createdAt: new Date(),
-                status
+                status,
+                tags: tags || []
             });
 
             await item.save();
@@ -106,17 +110,16 @@ export default class ItemRoute extends Route {
         uploader = new UploadModule('/item/images', 'thumbnailImage', '../host/playground/data', 'thumbnail-img');
 
         try {
-            const thumbnailImage = (await uploader.upload(req)) as MulterFile;
+            const thumbnail = (await uploader.upload(req)) as MulterFile;
 
             const
             item = await Item.findOne({ _id: id }),
             updates = { ...req.body }
 
-            if (thumbnailImage) {
-                if (item.thumbnailImagePath) uploader.removeFile(uploader.toAbsolutePath(item.thumbnailImagePath));
+            if (thumbnail) {
+                if (item.thumbnailImage && item.thumbnailImage.path) uploader.removeFile(uploader.toAbsolutePath(item.thumbnailImage.path));
 
-                updates.thumbnailImagePath = uploader.toRelativePath(thumbnailImage.path);
-                delete updates.thumbnailImage;
+                updates.thumbnailImage.path = uploader.toRelativePath(thumbnail.path);
             }
 
             for (const key in updates) item[key] = updates[key];
@@ -133,7 +136,7 @@ export default class ItemRoute extends Route {
 
         try {
             const item = await Item.findOneAndDelete({ _id: id });
-            if (item.thumbnailImagePath) removeFile(resolve(__dirname, item.thumbnailImagePath));
+            if (item.thumbnailImage && item.thumbnailImage.path) removeFile(resolve(__dirname, item.thumbnailImage.path));
 
             res.status(200).json({ result: 1 });
         } catch (error) {

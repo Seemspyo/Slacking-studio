@@ -58,7 +58,7 @@ export default class AuthRoute extends Route {
 
             if (this.cipher.privateDecrypt(user.password) !== password) throw new AccessError();
 
-            const token = this.auth.sign({ username })
+            const token = this.auth.sign({ username, authorized: user.authorized });
 
             res.status(200).json({ token });
         } catch (error) {
