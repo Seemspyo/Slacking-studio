@@ -34,7 +34,7 @@ errorHandler = new ErrorHandler();
 
 new AuthRoute(app, { auth, cipher, error: errorHandler }).route();
 new ItemRoute(app, { auth, error: errorHandler }).route();
-new FallbackRoute(app);
+new FallbackRoute(app).route();
 
 https.createServer(getCert('playground.eunsatio.io'), app)
 .listen(PORT, () => console.log(`Playground Server running on port ${ PORT }`));
