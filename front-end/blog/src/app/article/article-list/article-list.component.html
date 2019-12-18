@@ -1,7 +1,7 @@
 <div class="blog-article-list">
 
-    <div class="list-write-container">
-        <a class="list-write" routerLink="/write" *ngIf="writable">Write post</a>
+    <div class="list-write-container" *ngIf="writable">
+        <a class="list-write" routerLink="/write">Write post</a>
     </div>
 
     <div class="list-list">
@@ -48,6 +48,10 @@
             <div class="blog-article-spinner process-item-container"></div>
         </div>
 
+    </div>
+
+    <div class="list-nocontent">
+        <p class="list-nocontent-text">Found Nothing :(</p>
     </div>
 
 </div>

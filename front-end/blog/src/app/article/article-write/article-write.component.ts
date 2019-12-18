@@ -400,7 +400,10 @@ export class ArticleWriteComponent implements OnInit, OnDestroy {
 
     for (const imgEl of Array.from(el.querySelectorAll('img') as Array<HTMLImageElement>)) {
       const src = imgEl.getAttribute('src');
-      if (src && !src.includes('http')) this.renderer.setAttribute(imgEl, 'src', `https://${ window.location.hostname }${ src }`);
+      if (src) {
+        if (src.indexOf('/') === 0) src.replace('/', '');
+        if (!src.includes('http')) this.renderer.setAttribute(imgEl, 'src', `https://${ window.location.hostname }/${ src }`);
+      }
     }
 
     return el.innerHTML;

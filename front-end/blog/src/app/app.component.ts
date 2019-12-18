@@ -5,6 +5,7 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { UtilHelper } from './helpers/util.helper';
 
 /** Services */
+import { AuthService } from './services/ajax/auth.service';
 import { HeadService } from './services/util/head.service';
 
 
@@ -16,8 +17,10 @@ import { HeadService } from './services/util/head.service';
 export class AppComponent implements OnInit {
 
   public activating: boolean = false;
+  public initFail: boolean = false;
 
   constructor(
+    public auth: AuthService,
     private renderer: Renderer2,
     private head: HeadService
   ) {}

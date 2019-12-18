@@ -1,3 +1,14 @@
 <main class="blog ubuntu">
-  <router-outlet (activate)="onActivate($event)"></router-outlet>
+
+  <ng-container *ngIf="auth.initialized; else ErrorBlock">
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+  </ng-container>
+
+  <ng-template #ErrorBlock>
+    <div class="blog-failure">
+      <h4 class="blog-failure-text">Oops, Fail to initialize.</h4>
+      <h5 class="blog-failure-text quicksand">Please check your internet connections and try again.</h5>
+    </div>
+  </ng-template>
+
 </main>
