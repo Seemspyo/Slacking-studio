@@ -50,7 +50,7 @@
 
     </div>
 
-    <div class="list-nocontent">
+    <div class="list-nocontent" *ngIf="!loading && !articleList.length">
         <p class="list-nocontent-text">Found Nothing :(</p>
     </div>
 
