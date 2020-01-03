@@ -54,10 +54,19 @@ export class RedirectComponent implements OnInit, AfterViewInit {
     containerEl = this.containerElRef.nativeElement as HTMLElement,
     canvasEl = this.canvasElRef.nativeElement as HTMLCanvasElement;
 
-    canvasEl.width = containerEl.offsetWidth;
-    canvasEl.height = containerEl.offsetWidth * this.DISPLAY_RATIO;
+    let
+    width = containerEl.offsetWidth,
+    height = containerEl.offsetWidth * this.DISPLAY_RATIO;
 
-    this.scale = canvasEl.offsetWidth / this.DISPLAY_BASE_WIDTH;
+    if (height > containerEl.offsetHeight) {
+      height = Math.max(400, containerEl.offsetHeight);
+      width = height / this.DISPLAY_RATIO;
+    }
+
+    canvasEl.width = width;
+    canvasEl.height = height;
+
+    this.scale = width / this.DISPLAY_BASE_WIDTH;
   }
 
   private async drawText(): Promise<void> {
