@@ -60,7 +60,7 @@ export class SlideDirective implements OnInit, AfterViewInit, OnDestroy {
     if (!option.slideEl) option.slideEl = this.containerEl.children[0];
     if (!Array.isArray(option.attachTo)) option.attachTo = [option.attachTo]
 
-    this.init();
+    window.setTimeout(() => this.init());
   }
 
   ngOnDestroy() {
