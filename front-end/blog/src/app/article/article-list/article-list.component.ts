@@ -13,7 +13,7 @@ import { ArticleService } from 'src/app/services/ajax/article.service';
 import { StickyBarService } from 'src/app/services/util/sticky-bar.service';
 
 /** Types */
-import { ArticleDisplayable, Article, ArticleSearchOption, UserPayload } from 'src/app/services/@types';
+import { ArticleDisplayable, Article, ArticleSearchOption, UserPayload, UserPublic } from 'src/app/services/@types';
 
 /** Custom Modules */
 import { unknownErrorContext, getHttpErrorContext } from 'src/app/helpers/error.helper';
@@ -86,6 +86,10 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     return (author && author.profileImagePath) || AuthService.DEFAULT_PROFILE_IMAGE_PATH;
   }
 
+  public getAuthorName(author: UserPublic): string {
+    return author && author.nickname || 'Anonymous';
+  }
+
   public getDateString(dates: Article["date"]): string {
     const
     createdAt = new Date(dates.createdAt),
@@ -131,7 +135,9 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     try {
       const { totalCount, articles } = await this.article.getArticleAll(criteria);
 
-      this.articleList = this.articleList.concat(this.article.toDisplayable(articles));
+      this.articleList = this.articleList.concat(
+        this.article.toDisplayable(articles, article => article.date = this.getDateString(article.date) as any)
+      );
       this.total = totalCount;
     } catch (error) {
       let message: string = unknownErrorContext;
@@ -178,7 +184,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
       this.setParams();
       await this.loadArticleList();
-      await this.loadContentByWindow();
+      this.loadContentByWindow();
     }
 
     this.subscriptions.push(
@@ -188,12 +194,13 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   private subscribeSignState(): void {
-    const subscription = this.auth.events.subscribe(event => {
+    const subscription = this.auth.events.subscribe(async event => {
       if (event instanceof UserSignOut && !this.loading) {
         this.currentIndex = 0;
         this.articleList = new Array();
   
         this.setParams();
+        await this.loadArticleList()
         this.loadContentByWindow();
       }
     });

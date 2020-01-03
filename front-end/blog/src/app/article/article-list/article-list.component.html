@@ -4,16 +4,14 @@
         <a class="list-write" routerLink="/write">Write post</a>
     </div>
 
-    <div class="list-list">
+    <div class="list-list" [attr.count]="articleList.length">
 
         <ng-container *ngFor="let article of articleList">
             <div class="list-item" [class.private-article]="!article.status" @settle>
 
                 <a class="blog-article-card" [routerLink]="article.link">
 
-                    <div class="card-thumbnail" [style.backgroundImage]="'url(' + article.thumbnailImagePath + ')'">
-                        <!-- <img [src]="article.thumbnailImagePath" /> -->
-                    </div>
+                    <div class="card-thumbnail" [style.backgroundImage]="'url(' + article.thumbnailImagePath + ')'"></div>
 
                     <div class="card-content">
 
@@ -26,8 +24,8 @@
                                 <img [src]="getProfileImagePath(article.author)" />
                             </div>
                             <div class="card-content-profile-info">
-                                <h4 class="info-nickname">{{ (article.author && article.author.nickname) || 'Anonymous' }}</h4>
-                                <p class="info-date">{{ getDateString(article.date) }}</p>
+                                <h4 class="info-nickname">{{ getAuthorName(article.author) }}</h4>
+                                <p class="info-date">{{ article.date }}</p>
                             </div>
                         </div>
 

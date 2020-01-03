@@ -81,7 +81,7 @@ export class ArticleService extends BlogHttp {
     return title.replace(/-/g, ' ');
   }
 
-  public toDisplayable(article: Array<Article> | Article): Array<ArticleDisplayable> | ArticleDisplayable {
+  public toDisplayable(article: Array<Article> | Article, subfix?: (article: Article) => any): Array<ArticleDisplayable> | ArticleDisplayable {
     const articles = (Array.isArray(article) ? article : [ article ]) as Array<ArticleDisplayable>;
 
     for (const article of articles) {
@@ -89,6 +89,7 @@ export class ArticleService extends BlogHttp {
       article.modifyLink = `/write/${ article.title }`;
       article.title = this.decodeTitle(article.title);
       article.thumbnailImagePath = this.getThumbnailImagePath(article.content);
+      if (subfix) subfix(article);
     }
 
     return Array.isArray(article) ? articles : articles[0];

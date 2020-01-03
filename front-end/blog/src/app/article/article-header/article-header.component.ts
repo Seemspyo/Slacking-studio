@@ -31,6 +31,7 @@ import { toggleSlideDown } from 'src/app/animations/slide.animation';
 export class ArticleHeaderComponent implements OnInit, OnDestroy {
 
   @ViewChild('searchInput', { static: false }) searchInputElRef: ElementRef;
+  @ViewChild('keywordList', { static: false }) keywordListElRef: ElementRef;
 
   public searchQuery: string;
   public keywords: Array<SearchKeyword>;
@@ -215,6 +216,8 @@ export class ArticleHeaderComponent implements OnInit, OnDestroy {
         currentItem.selected = false;
         targetItem.selected = true;
         this.searchQuery = targetItem.value;
+
+        this.scrollTo(index);
       }
     } else if (this.keywords[0]) {
       this.keywords[0].selected = true;
@@ -239,6 +242,27 @@ export class ArticleHeaderComponent implements OnInit, OnDestroy {
       this.tags = await this.article.getTagAll();
     } catch (error) {
       this.stickyBar.open('An error occurred.');
+    }
+  }
+
+  private scrollTo(index: number): void {
+    const keywordListEl = this.keywordListElRef.nativeElement;
+
+    if (keywordListEl instanceof HTMLElement) {
+      const child = Array.from(keywordListEl.querySelectorAll('.search-keyword-item'))[index] as HTMLElement;
+
+      if (child) {
+        const
+        { scrollTop, offsetHeight } = keywordListEl,
+        childTop = child.offsetTop,
+        childHeight = child.offsetHeight;
+
+        const isInSight = scrollTop <= childTop && childTop + childHeight <= scrollTop + offsetHeight;
+
+        if (!isInSight) keywordListEl.scrollTop = (
+          childTop - scrollTop > offsetHeight - ( childTop - scrollTop + childHeight ) ? childTop - (offsetHeight - childHeight) : childTop
+        );
+      }
     }
   }
 
