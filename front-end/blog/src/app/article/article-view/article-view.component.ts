@@ -191,7 +191,10 @@ export class ArticleViewComponent implements OnInit {
     this.loading = true;
     
     try {
-      const article = await this.articleService.getArticle(title, this.viewLog.includes(this.articleService.decodeTitle(title)));
+      const article = await this.articleService.getArticle(
+        encodeURIComponent(title),
+        this.viewLog.includes(this.articleService.decodeTitle(title))
+      );
 
       if (!article.status && !this.auth.admin) {
         this.stickyBar.open('This post is private.');
@@ -205,7 +208,7 @@ export class ArticleViewComponent implements OnInit {
       let message: string = unknownErrorContext;
 
       if (error instanceof HttpErrorResponse) {
-        if (error.status === 404) this.router.navigateByUrl('/404', { replaceUrl: true });
+        if (error.status === 404) this.router.navigateByUrl('/404', { skipLocationChange: true });
         else message = getHttpErrorContext(error.status);
       }
 
