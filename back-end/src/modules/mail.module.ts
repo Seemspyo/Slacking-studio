@@ -5,9 +5,6 @@ import Mail from 'nodemailer/lib/mailer';
 /** Custom Modules */
 import { LogModule } from './log.module';
 
-/** Privates */
-import { googleAuth } from '../privates/blog.private';
-
 
 export class MailModule {
 
@@ -21,7 +18,15 @@ export class MailModule {
             host: 'smtp.gmail.com',
             port: 465,
             secure: true,
-            auth: googleAuth as any
+            auth: {
+                type: 'OAuth2',
+                user: process.env.GOOGLE_USER_ID,
+                clientId: process.env.GOOGLE_CLIENT_ID,
+                clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+                refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+                accessToken: process.env.GOOGLE_ACCESS_TOKEN,
+                expires: 3600
+            }
         });
     }
 

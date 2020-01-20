@@ -5,7 +5,8 @@
 /node_modules
 
 # dev only
-/src/privates
+.env
+.env.prod
 
 # test unit
 /host

@@ -56,7 +56,9 @@ export class ErrorHandler {
 
             res.status(status).send(message);
         }
-        else if (error instanceof MongoError) {res.status(200).json(error); console.log(error);}
+        else if (error instanceof MongoError) {
+            res.status(200).json(error);
+        }
         else {
             res.status(500).send('unknownError');
             this.logger.write(JSON.stringify(error));

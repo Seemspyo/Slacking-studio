@@ -5,7 +5,7 @@ import express from 'express';
 process.title = 'eunsatio-http';
 
 const
-PORT = 80,
+PORT = process.env.HTTP_PORT,
 http = express();
 
 http.get('*', (req, res) => {

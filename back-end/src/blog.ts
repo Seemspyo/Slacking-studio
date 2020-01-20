@@ -11,20 +11,19 @@ import CommentRoute from './routes/blog/comment.route';
 import FallbackRoute from './routes/fallback.route';
 import AnalyticsRoute from './routes/blog/analytics.route';
 
-/** Privates */
-import { PORT } from './privates/blog.private';
-import { privateKey, publicKey, PASSPHRASE, getCert } from './privates/tls.private';
-
 /** Custom Modules */
 import { BlogRoute } from './routes/blog/blog.route';
 import { AuthModule } from './modules/auth.module';
 import { CipherModule } from './modules/cipher.module';
 import { limit } from './modules/limit-origin.module';
+import { privateKey, publicKey, PASSPHRASE, getCert } from './modules/tls.module';
 
 
 process.title = 'eunsatio-blog';
 
-const app = express();
+const
+PORT = process.env.BLOG_WAS_PORT,
+app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: '50md' }));
