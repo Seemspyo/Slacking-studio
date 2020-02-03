@@ -6,7 +6,7 @@ const schema = new Schema({
     author: { type: Schema.Types.ObjectId, ref: 'user' },
     nickname: String,
     password: String,
-    content: { type: String, required: true, maxlength: 250 },
+    content: { type: String, required: true, maxlength: 1000 },
     date: {
         createdAt: { type: Date, required: true },
         lastUpdatedAt: { type: Date, required: true }

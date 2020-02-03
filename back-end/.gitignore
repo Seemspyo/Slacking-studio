@@ -6,7 +6,7 @@
 
 # dev only
 .env
-.env.prod
+.prod.env
 
 # test unit
 /host

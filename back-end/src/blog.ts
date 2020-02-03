@@ -27,7 +27,7 @@ app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: '50md' }));
-app.use(cors({ origin: limit(['https://blog.eunsatio.io']) }));
+app.use(cors({ origin: limit([`https://blog.${ process.env.DOMAIN }`]) }));
 
 const routes = [
     AuthRoute, UserRoute, ArticleRoute, CommentRoute, AnalyticsRoute, FallbackRoute
@@ -40,5 +40,5 @@ BlogRoute.setModules({
 
 for (const Route of routes) new Route(app).route();
 
-https.createServer(getCert('blog.eunsatio.io'), app)
+https.createServer(getCert(`blog.${ process.env.DOMAIN }`), app)
 .listen(PORT, () => console.log(`Blog Server running on port ${ PORT }`));

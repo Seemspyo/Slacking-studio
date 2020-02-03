@@ -4,9 +4,9 @@ CleanupPlugin = require('webpack-cleanup-plugin'),
 webpack = require('webpack'),
 DotEnv = require('dotenv-webpack');
 
-module.exports = env => ({
+module.exports = (env, options) => ({
     target: "node",
-    mode: env.production ? 'production' : 'development',
+    mode: options.mode,
     entry: {
         http: './src/http.ts',
         app: './src/app.ts',
@@ -35,6 +35,6 @@ module.exports = env => ({
     plugins: [
         new CleanupPlugin(),
         new webpack.ContextReplacementPlugin(/.*/),
-        new DotEnv({ path: env.production ? './.env.prod' : './.env' })
+        new DotEnv({ path: options.mode === 'production' ? './.prod.env' : './.env' })
     ]
 });

@@ -97,8 +97,6 @@ export default class UserRoute extends BlogRoute {
         let profileImage: MulterFile;
 
         try {
-            this.auth.appTokenCheck(req);
-
             profileImage = (await uploader.upload(req)) as MulterFile;
 
             let

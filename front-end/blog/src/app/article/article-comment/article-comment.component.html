@@ -112,7 +112,7 @@
 
 <ng-template #CommentFormContent let-group="group">
     <div class="comment-form-content" [formGroup]="group">
-        <textarea class="comment-form-content-input" formControlName="content"></textarea>
+        <textarea class="comment-form-content-input" formControlName="content" maxlength="1000"></textarea>
         <button blogButton class="comment-form-content-button" type="submit" [disabled]="group.invalid">Send</button>
     </div>
 </ng-template>

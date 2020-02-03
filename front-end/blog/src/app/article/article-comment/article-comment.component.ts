@@ -305,7 +305,7 @@ export class ArticleCommentComponent implements OnInit, OnDestroy {
   private getGroup(getValue: (key: string) => any = () => void(0), validate: boolean = true): FormGroup {
     let controls: { [key: string]: FormControl } = {
       id: new FormControl(getValue('id') || Date.now().toString(16)),
-      content: new FormControl(getValue('content'), [ Validators.required ]),
+      content: new FormControl(getValue('content'), [ Validators.required, Validators.minLength(4), Validators.maxLength(1000) ]),
       parentId: new FormControl(getValue('parentId'))
     }
 

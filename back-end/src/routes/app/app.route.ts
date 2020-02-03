@@ -25,7 +25,7 @@ export default class AppRoute extends Route {
     private fallback(req: Request, res: Response): void {
         const data = this.assignToken ? { appToken: this.auth.sign({ secret: `${ req.ip }|${ req.hostname }` }) } : null;
 
-        res.render('index', data);
+        res.render('index', { cache: false, ...data });
     }
 
 }

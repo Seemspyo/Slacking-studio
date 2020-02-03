@@ -46,7 +46,7 @@ export class AuthService extends BlogHttp {
       await this.post(this.baseURI('validate-token'), { token: this.appToken });
       AuthService.headers = AuthService.headers.append('ss-app-access-token', this.__app_token);
 
-      let userToken = localStorage.getItem(this.USER_TOKEN_KEY);
+      const userToken = localStorage.getItem(this.USER_TOKEN_KEY);
       if (userToken) {
         const { token } = await this.post(this.baseURI('refresh-user-token'), { token: userToken });
 
