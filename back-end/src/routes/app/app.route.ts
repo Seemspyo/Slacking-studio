@@ -27,12 +27,13 @@ export default class AppRoute extends Route {
 
         let url = req.url;
         if (url.charAt(0) === '/') url = url.replace('/', '');
+        const option = { cache: false, ...data }
 
-        if (!url.length || url.charAt(url.length - 1) === '/') res.render(`${ url }index`, { cache: false, ...data }, (error, html) => {
+        if (!url.length || url.charAt(url.length - 1) === '/') res.render(`${ url }index`, option, (error, html) => {
             if (!error) res.send(html);
-            else res.status(404).render('index', { cache: false, ...data });
+            else res.status(404).render('index', option);
         });
-        else res.render('index', { cache: false, ...data });
+        else res.render('index', option);
     }
 
 }
