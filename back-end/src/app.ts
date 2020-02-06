@@ -24,8 +24,8 @@ app = express();
 
 const
 gate = virtualHost('gate'),
-blog = virtualHost('blog', { index: false }),
-playground = virtualHost('playground', { index: 'app.html' });
+blog = virtualHost('blog', { index: false, etag: false }),
+playground = virtualHost('playground', { index: false, etag: false });
 
 new RedirectRoute(gate).route();
 new AppRoute(gate, authModule, { assignToken: false }).route();
