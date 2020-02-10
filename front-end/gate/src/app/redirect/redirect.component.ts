@@ -17,8 +17,8 @@ import { FontStyles } from '../@types';
 })
 export class RedirectComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('displayContainer', { static: false }) containerElRef: ElementRef;
-  @ViewChild('display', { static: false }) canvasElRef: ElementRef;
+  @ViewChild('displayContainer') containerElRef: ElementRef;
+  @ViewChild('display') canvasElRef: ElementRef;
 
   private readonly DISPLAY_BASE_WIDTH = 1920;
   private readonly DISPLAY_BASE_HEIGHT = 1080;

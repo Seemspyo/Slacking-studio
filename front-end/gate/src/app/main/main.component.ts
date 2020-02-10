@@ -31,7 +31,7 @@ export class MainComponent implements OnInit {
     attachTo: [window]
   }
 
-  @ViewChild(SlideDirective, { static: false }) slideDirective: SlideDirective;
+  @ViewChild(SlideDirective) slideDirective: SlideDirective;
 
   constructor(
     private router: Router,
