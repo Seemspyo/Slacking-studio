@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 /** Custom Modules */
 import { BlogHttp } from './blog-http.ajax';
 
-/** Variables */
-import { WAS_HOST } from './@variables.ajax';
+/** ENV */
+import { environment } from 'src/environments/environment';
 
 /** Types */
 import { CountData } from '../@types';
@@ -38,7 +38,7 @@ export class AnalyticsService extends BlogHttp {
   }
 
   protected baseURI(relativePath: string): string {
-    return `${ WAS_HOST }/analytics${ relativePath }`;
+    return `${ environment.WAS_HOST }/analytics${ relativePath }`;
   }
 
 }

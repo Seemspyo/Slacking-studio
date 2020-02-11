@@ -13,8 +13,8 @@ import jwtDecode from 'jwt-decode';
 import { UtilHelper } from 'src/app/helpers/util.helper';
 import { AppEvent, UserSignOut, UserSignIn } from 'src/app/helpers/event.helper';
 
-/** Variables */
-import { WAS_HOST } from './@variables.ajax';
+/** ENV */
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -98,7 +98,7 @@ export class AuthService extends BlogHttp {
   }
 
   protected baseURI(relativePath: string): string {
-    return `${ WAS_HOST }/auth/${ relativePath }`;
+    return `${ environment.WAS_HOST }/auth/${ relativePath }`;
   }
 
   private get appToken(): string {

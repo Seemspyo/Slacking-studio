@@ -4,13 +4,13 @@ import { HttpClient } from '@angular/common/http';
 
 /** Custom Modules */
 import { BlogHttp } from './blog-http.ajax';
+import { UtilHelper } from 'src/app/helpers/util.helper';
 
-/** Variables */
-import { WAS_HOST } from './@variables.ajax';
+/** ENV */
+import { environment } from 'src/environments/environment';
 
 /** Types */
 import { ArticleComment, ResultResponse } from '../@types';
-import { UtilHelper } from 'src/app/helpers/util.helper';
 
 
 @Injectable({
@@ -43,7 +43,7 @@ export class CommentService extends BlogHttp {
   }
 
   protected baseURI(relativePath: string): string {
-    return `${ WAS_HOST }/comment${ relativePath }`;
+    return `${ environment.WAS_HOST }/comment${ relativePath }`;
   }
 
 }

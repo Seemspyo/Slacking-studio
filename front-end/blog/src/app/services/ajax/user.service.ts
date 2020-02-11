@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 /** Custom Modules */
 import { BlogHttp } from './blog-http.ajax';
 
-/** Variables */
-import { WAS_HOST } from './@variables.ajax';
+/** ENV */
+import { environment } from 'src/environments/environment';
 
 /** Types */
 import { User, UserPublic, ResultResponse } from '../@types';
@@ -27,7 +27,7 @@ export class UserService extends BlogHttp {
   }
 
   public async getUserAll(): Promise<User[]> {
-    return await this.get(`${ WAS_HOST }/users`);
+    return await this.get(`${ environment.WAS_HOST }/users`);
   }
 
   public async getUser(email: string): Promise<User> {
@@ -45,7 +45,7 @@ export class UserService extends BlogHttp {
   }
 
   protected baseURI(relativePath: string): string {
-    return `${ WAS_HOST }/user/${ relativePath }`;
+    return `${ environment.WAS_HOST }/user/${ relativePath }`;
   }
 
 }

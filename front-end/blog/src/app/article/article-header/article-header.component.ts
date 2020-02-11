@@ -30,8 +30,8 @@ import { toggleSlideDown } from 'src/app/animations/slide.animation';
 })
 export class ArticleHeaderComponent implements OnInit, OnDestroy {
 
-  @ViewChild('searchInput', { static: false }) searchInputElRef: ElementRef;
-  @ViewChild('keywordList', { static: false }) keywordListElRef: ElementRef;
+  @ViewChild('searchInput') searchInputElRef: ElementRef;
+  @ViewChild('keywordList') keywordListElRef: ElementRef;
 
   public searchQuery: string;
   public keywords: Array<SearchKeyword>;

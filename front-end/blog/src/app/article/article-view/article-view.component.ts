@@ -42,7 +42,7 @@ export class ArticleViewComponent implements OnInit {
   private initialLoad: Promise<void>;
   private initialLoadResolve: () => void;
 
-  @ViewChild('confirmTemplate', { static: false }) confirmTemplateRef: TemplateRef<any>;
+  @ViewChild('confirmTemplate') confirmTemplateRef: TemplateRef<any>;
 
   public dismissConfirm: () => void;
 

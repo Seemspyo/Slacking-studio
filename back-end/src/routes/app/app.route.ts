@@ -31,7 +31,7 @@ export default class AppRoute extends Route {
 
         if (!url.length || url.charAt(url.length - 1) === '/') res.render(`${ url }index`, option, (error, html) => {
             if (!error) res.send(html);
-            else res.status(404).render('index', option);
+            else res.render('index', option);
         });
         else res.render('index', option);
     }

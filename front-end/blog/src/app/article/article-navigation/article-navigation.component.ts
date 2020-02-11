@@ -55,7 +55,7 @@ export class ArticleNavigationComponent implements OnInit, AfterViewChecked, OnD
   private events: Array<() => void> = new Array();
 
   @Output('afterInit') afterInitEmitter: EventEmitter<void> = new EventEmitter();
-  @ViewChild('containerEl', { static: false }) containerElRef: ElementRef;
+  @ViewChild('containerEl') containerElRef: ElementRef;
 
   constructor(
     public category: CategoryService,

@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  WAS_HOST: 'https://blog.eunsatio.io:47259'
 };

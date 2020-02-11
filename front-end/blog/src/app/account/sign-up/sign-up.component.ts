@@ -35,7 +35,7 @@ export class SignUpComponent implements AccountComponentChild, OnInit, OnDestroy
     title: 'Sign up'
   }
 
-  @ViewChild('profileImageInput', { static: false }) profileImageInputRef: ElementRef;
+  @ViewChild('profileImageInput') profileImageInputRef: ElementRef;
   @ViewChild('Policy', { static: true }) policyTemplateRef: TemplateRef<any>;
 
   public formGroup = new FormGroup({

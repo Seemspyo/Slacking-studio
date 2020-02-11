@@ -45,8 +45,8 @@ export class MyAccountComponent implements AccountComponentChild, OnInit, OnDest
     title: 'My page'
   }
 
-  @ViewChild(FileInputDirective, { static: false }) profileImageInputRef: FileInputDirective;
-  @ViewChild('DeleteConfirm', { static: false }) deleteTemplateRef: TemplateRef<any>;
+  @ViewChild(FileInputDirective) profileImageInputRef: FileInputDirective;
+  @ViewChild('DeleteConfirm') deleteTemplateRef: TemplateRef<any>;
 
   public formGroup = new FormGroup({
     email: new FormControl('', [ Validators.required, Validators.email ]),

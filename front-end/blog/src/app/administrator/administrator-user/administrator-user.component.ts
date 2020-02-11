@@ -35,8 +35,8 @@ export class AdministratorUserComponent implements OnInit, OnDestroy {
   ]
   public userList: Array<User>;
 
-  @ViewChild(FileInputDirective, { static: false }) profileImageInputRef: FileInputDirective;
-  @ViewChild('UserForm', { static: false }) userFormTemplateRef: TemplateRef<any>;
+  @ViewChild(FileInputDirective) profileImageInputRef: FileInputDirective;
+  @ViewChild('UserForm') userFormTemplateRef: TemplateRef<any>;
 
   public userFormGroup = new FormGroup({
     email: new FormControl('', [ Validators.required, Validators.email ]),

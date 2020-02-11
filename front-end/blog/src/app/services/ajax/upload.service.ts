@@ -5,8 +5,10 @@ import { HttpClient } from '@angular/common/http';
 /** Custom Modules */
 import { BlogHttp } from './blog-http.ajax';
 
-/** Variables */
-import { WAS_HOST } from './@variables.ajax';
+/** ENV */
+import { environment } from 'src/environments/environment';
+
+/** Types */
 import { ResultResponse } from '../@types';
 
 
@@ -31,7 +33,7 @@ export class UploadService extends BlogHttp {
   }
 
   protected baseURI(relativePath: string): string {
-    return `${ WAS_HOST }/upload/${ relativePath }`;
+    return `${ environment.WAS_HOST }/upload/${ relativePath }`;
   }
 
 }

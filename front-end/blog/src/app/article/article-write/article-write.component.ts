@@ -62,8 +62,8 @@ export class ArticleWriteComponent implements OnInit, OnDestroy {
     title: 'Post'
   }
 
-  @ViewChild('categoryInput', { static: false }) categoryInputElRef: ElementRef;
-  @ViewChild('confirmTemplate', { static: false }) confirmTemplateRef: TemplateRef<any>;
+  @ViewChild('categoryInput') categoryInputElRef: ElementRef;
+  @ViewChild('confirmTemplate') confirmTemplateRef: TemplateRef<any>;
 
   public formGroup: FormGroup = new FormGroup({
     title: new FormControl('', [ Validators.required, Validators.pattern(/^[^-]+$/) ]),

@@ -6,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { BlogHttp } from './blog-http.ajax';
 import { UtilHelper } from 'src/app/helpers/util.helper';
 
-/** Variables */
-import { WAS_HOST } from './@variables.ajax';
+/** ENV */
+import { environment } from 'src/environments/environment';
 
 /** Types */
 import { Article, ArticleSearchOption, ResultResponse, ArticleDisplayable } from '../@types';
@@ -31,14 +31,14 @@ export class ArticleService extends BlogHttp {
   }
 
   public async getTagAll(): Promise<string[]> {
-    return this.get(`${ WAS_HOST }/tags`);
+    return this.get(`${ environment.WAS_HOST }/tags`);
   }
 
   public async getCategoryAll(status?: boolean): Promise<string[]> {
     let option: any = {}
     if (status !== void(0)) option.status = status;
 
-    return this.get(`${ WAS_HOST }/categories${ UtilHelper.toQueryString(option) }`);
+    return this.get(`${ environment.WAS_HOST }/categories${ UtilHelper.toQueryString(option) }`);
   }
 
   public async getArticleAll(searchOption: ArticleSearchOption = {}): Promise<{ totalCount: number; articles: Article[]; }> {
@@ -108,7 +108,7 @@ export class ArticleService extends BlogHttp {
   }
 
   protected baseURI(relativePath: string): string {
-    return `${ WAS_HOST }/article${ relativePath }`;
+    return `${ environment.WAS_HOST }/article${ relativePath }`;
   }
 
 }

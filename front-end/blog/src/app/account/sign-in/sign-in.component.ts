@@ -44,8 +44,8 @@ export class SignInComponent implements AccountComponentChild {
     title: 'Sign in'
   }
 
-  @ViewChild('formInput', { static: false }) formInputRef: ElementRef;
-  @ViewChild('ResendMailTemplate', { static: false }) mailTemplateRef: TemplateRef<any>;
+  @ViewChild('formInput') formInputRef: ElementRef;
+  @ViewChild('ResendMailTemplate') mailTemplateRef: TemplateRef<any>;
 
   public step: number = 0;
   public formType: 'text' | 'password' = 'text';

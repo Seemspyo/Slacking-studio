@@ -29,7 +29,7 @@ export class ArticleCommentComponent implements OnInit, OnDestroy {
   @Input('comments') commentIdList: Array<string>;
   @Input() articleId: string;
 
-  @ViewChild('ConfirmPassword', { static: false }) confirmRef: TemplateRef<any>;
+  @ViewChild('ConfirmPassword') confirmRef: TemplateRef<any>;
 
   public commentList: Array<RenderableComment>;
 
