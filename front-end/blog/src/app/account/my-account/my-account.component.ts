@@ -35,7 +35,7 @@ import { faUser as faUserEmpty, faBookmark as faBookmarkEmpty, faComments as faC
   templateUrl: './my-account.component.html',
   styleUrls: ['./my-account.component.scss']
 })
-export class MyAccountComponent implements AccountComponentChild, OnInit, OnDestroy {
+export class MyAccountComponent implements /** AccountComponentChild, */ OnInit, OnDestroy {
 
   public readonly title = 'MY PAGE';
   public readonly headProperties: HeadProperties = {

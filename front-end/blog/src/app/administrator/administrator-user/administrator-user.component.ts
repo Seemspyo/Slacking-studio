@@ -148,7 +148,7 @@ export class AdministratorUserComponent implements OnInit, OnDestroy {
     this.userInfo = user;
 
     this.dialogRef = this.dialog.open(this.userFormTemplateRef);
-    await this.dialogRef.afterOpen().toPromise();
+    await this.dialogRef.afterOpened().toPromise();
 
     for (const key in group.controls) if (group.controls[key]) group.controls[key].setValue(this.userInfo[key]);
     if (this.userInfo.profileImageFileName) this.profileImageInputRef.setValue(this.userInfo.profileImageFileName);

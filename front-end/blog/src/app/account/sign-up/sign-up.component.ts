@@ -25,7 +25,7 @@ import { matchValidator } from 'src/app/helpers/validator.helper';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements AccountComponentChild, OnInit, OnDestroy {
+export class SignUpComponent implements /** AccountComponentChild, */ OnInit, OnDestroy {
 
   public readonly title = 'SIGN UP';
   public readonly headProperties: HeadProperties = {
