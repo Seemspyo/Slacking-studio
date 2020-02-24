@@ -23,6 +23,7 @@ import { unknownErrorContext, getHttpErrorContext, DuplicationError } from 'src/
 import { IconDefinition, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as faBookmarkEmpty } from '@fortawesome/free-regular-svg-icons';
 import { faFacebookF, faTwitter, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -239,7 +240,7 @@ export class ArticleViewComponent implements OnInit {
           'og:title': this.article.title,
           'og:type': 'article',
           'og:description': renderEl.innerText.length > 100 ? `${ renderEl.innerText.slice(0, 100) }...` : renderEl.innerText,
-          'og:image': this.article.thumbnailImagePath
+          'og:image': this.article.thumbnailImagePath && `${ environment.HOST }${ this.article.thumbnailImagePath.charAt(0) === '/' ? this.article.thumbnailImagePath : '/'.concat(this.article.thumbnailImagePath) }`
         },
         title: this.article.title
       });

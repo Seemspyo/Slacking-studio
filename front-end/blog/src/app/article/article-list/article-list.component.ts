@@ -83,11 +83,11 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   public getProfileImagePath(author: UserPayload): string {
-    return (author && author.profileImagePath) || AuthService.DEFAULT_PROFILE_IMAGE_PATH;
+    return author?.profileImagePath || AuthService.DEFAULT_PROFILE_IMAGE_PATH;
   }
 
   public getAuthorName(author: UserPublic): string {
-    return author && author.nickname || 'Anonymous';
+    return author?.nickname || 'Anonymous';
   }
 
   public getDateString(dates: Article["date"]): string {
@@ -136,7 +136,13 @@ export class ArticleListComponent implements OnInit, OnDestroy {
       const { totalCount, articles } = await this.article.getArticleAll(criteria);
 
       this.articleList = this.articleList.concat(
-        this.article.toDisplayable(articles, article => article.date = this.getDateString(article.date) as any)
+        this.article.toDisplayable(articles, article => {
+          article.date = this.getDateString(article.date) as any;
+
+          if (!article.author) article.author = {}
+          article.author.profileImagePath = this.getProfileImagePath(article.author);
+          article.author.nickname = this.getAuthorName(article.author);
+        })
       );
       this.total = totalCount;
     } catch (error) {
