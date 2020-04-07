@@ -40,5 +40,12 @@ BlogRoute.setModules({
 
 for (const Route of routes) new Route(app).route();
 
-https.createServer(getCert(`blog.${ process.env.DOMAIN }`), app)
+const service = https.createServer(getCert(`blog.${ process.env.DOMAIN }`), app)
 .listen(PORT, () => console.log(`Blog Server running on port ${ PORT }`));
+
+process
+.on('SIGINT', () => process.exit())
+.on('exit', () => {
+    service.close();
+    console.log(`BLOG Server has removed from port ${ PORT }`);
+});

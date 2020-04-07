@@ -24,7 +24,7 @@ app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: '50md' }));
-app.use(cors({ origin: limit([`https://playground.${ process.env.DOMAIN }`]) }));
+app.use(cors({ origin: limit([ `https://playground.${ process.env.DOMAIN }` ]) }));
 
 const
 auth = new AuthModule(privateKey, publicKey, PASSPHRASE),
@@ -35,5 +35,12 @@ new AuthRoute(app, { auth, cipher, error: errorHandler }).route();
 new ItemRoute(app, { auth, error: errorHandler }).route();
 new FallbackRoute(app).route();
 
-https.createServer(getCert(`playground.${ process.env.DOMAIN }`), app)
+const service = https.createServer(getCert(`playground.${ process.env.DOMAIN }`), app)
 .listen(PORT, () => console.log(`Playground Server running on port ${ PORT }`));
+
+process
+.on('SIGINT', () => process.exit())
+.on('exit', () => {
+    service.close();
+    console.log(`Playground Server has removed from port ${ PORT }`);
+});

@@ -12,4 +12,11 @@ http.get('*', (req, res) => {
     res.redirect(`https://${ req.hostname }${ req.url }`);
 });
 
-http.listen(PORT, () => console.log(`HTTP Service running on port ${ PORT }`));
+const service = http.listen(PORT, () => console.log(`HTTP Service running on port ${ PORT }`));
+
+process
+.on('SIGINT', () => process.exit())
+.on('exit', () => {
+    service.close();
+    console.log(`HTTP service has removed from port ${ PORT }`);
+});

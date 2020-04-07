@@ -19,15 +19,9 @@ export const getCert = (domain: string) => {
     }
 }
 
-const secureContexts = {
-    'eunsatio.io': tls.createSecureContext(getCert('eunsatio.io')),
-    'blog.eunsatio.io': tls.createSecureContext(getCert('blog.eunsatio.io')),
-    'playground.eunsatio.io': tls.createSecureContext(getCert('playground.eunsatio.io'))
-}
-
 export const credentials = {
     SNICallback: (domain: string, callback: any) => {
-        callback(null, secureContexts[domain]);
+        callback(null, tls.createSecureContext(getCert(domain)));
     },
     ...getCert('eunsatio.io')
 }

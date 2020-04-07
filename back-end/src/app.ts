@@ -37,5 +37,12 @@ app.use(vhost(`${ DOMAIN }`, gate));
 app.use(vhost(`blog.${ DOMAIN }`, blog));
 app.use(vhost(`playground.${ DOMAIN }`, playground));
 
-https.createServer(credentials, app)
+const service = https.createServer(credentials, app)
 .listen(PORT, () => console.log(`HTTPS service running on port ${ PORT }`));
+
+process
+.on('SIGINT', () => process.exit())
+.on('exit', () => {
+    service.close();
+    console.log(`HTTPS service has removed from port ${ PORT }`);
+});
