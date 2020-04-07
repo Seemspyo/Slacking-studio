@@ -34,7 +34,7 @@ import { fadeEnterLeave } from 'src/app/animations/fade.animation';
     trigger('fade', fadeEnterLeave)
   ]
 })
-export class SignInComponent /* implements AccountComponentChild **/ {
+export class SignInComponent implements AccountComponentChild {
 
   public readonly title = 'SIGN IN';
   public readonly headProperties: HeadProperties = {

@@ -14,7 +14,7 @@ import { AccountComponentChild } from '../@types';
   templateUrl: './verify.component.html',
   styleUrls: ['./verify.component.scss']
 })
-export class VerifyComponent implements /** AccountComponentChild, */ AfterViewInit {
+export class VerifyComponent implements AccountComponentChild, AfterViewInit {
 
   public readonly title = 'VERIFY';
 
