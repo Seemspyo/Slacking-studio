@@ -88,23 +88,26 @@ export class ArticleService extends BlogHttp {
       article.link = `/${ article.category }/${ article.title }`;
       article.modifyLink = `/write/${ article.title }`;
       article.title = this.decodeTitle(article.title);
-      article.thumbnailImagePath = this.getThumbnailImagePath(article.content);
+      this.setThumbnailImagePathAsync(article);
       if (subfix) subfix(article);
     }
 
     return Array.isArray(article) ? articles : articles[0];
   }
 
-  private getThumbnailImagePath(content: string): string {
-    const virtualEl = this.renderer.createElement('div') as HTMLDivElement;
+  private async setThumbnailImagePathAsync(article: ArticleDisplayable): Promise<void> {
+    const virtualEl = this.renderer.createElement('div');
 
-    this.renderer.setProperty(virtualEl, 'innerHTML', content);
+    this.renderer.setProperty(virtualEl, 'innerHTML', article.content);
 
     const
-    firstImageEl = virtualEl.querySelector('img[src]'),
-    path = (firstImageEl && firstImageEl.getAttribute('src')) || this.DEFAULT_THUMBNAIL_IMAGE_PATH;
+    firstImgEl = virtualEl.querySelector('.thumbnail-image img') || virtualEl.querySelector('img[src]');
 
-    return path;
+    article.thumbnailImagePath = this.DEFAULT_THUMBNAIL_IMAGE_PATH;
+
+    if (firstImgEl) {
+      article.thumbnailImagePath = await new Promise(resolve => firstImgEl.addEventListener('load', () => resolve(firstImgEl.getAttribute('src'))));
+    }
   }
 
   protected baseURI(relativePath: string): string {
