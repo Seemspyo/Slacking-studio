@@ -10,9 +10,9 @@ a { text-decoration: none; }
 li { list-style-type: none; }
 input, select, textarea, button { font-family: inherit; &:focus { outline: none; } }
 
-.n-b-gothic { font-family: 'Nanum Barun Gothic', Helvetica; }
-.quicksand { font-family: 'Quicksand', 'Nanum Barun Gothic', sans-serif; }
-.ubuntu { font-family: 'Ubuntu', 'Nanum Barun Gothic', sans-serif; }
+.pr-jn { font-family: 'PureunJeonnam', Helvetica; }
+.quicksand { font-family: 'Quicksand', 'PureunJeonnam', sans-serif; }
+.ubuntu { font-family: 'Ubuntu', 'PureunJeonnam', sans-serif; }
 
 :root * {
 

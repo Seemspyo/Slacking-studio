@@ -43,7 +43,7 @@ export class ArticleWriteComponent implements OnInit, OnDestroy {
     ],
     height: 500,
     resize: false,
-    font_formats: 'Nanum Barun Gothic=Nanum Barun Gothic, Ubuntu, sans-serif;',
+    font_formats: 'Pureun Jeonnam=PureunJeonnam, Ubuntu, sans-serif;',
     fontsize_formats: '8px 9px 10px 12px 14px 16px 18px 24px 36px 48px',
     style_formats: [
       { title: 'Thumbnail Image', classes: 'thumbnail-image', block: 'div' },
