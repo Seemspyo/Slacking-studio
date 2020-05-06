@@ -78,6 +78,7 @@ export interface ArticleDisplayable extends Article {
     link: string;
     modifyLink: string;
     thumbnailImagePath: string;
+    thumbnailImagePromise?: Promise<void>;
 }
 
 export interface ArticleSearchOption {

@@ -81,14 +81,14 @@ export class ArticleService extends BlogHttp {
     return title.replace(/-/g, ' ');
   }
 
-  public toDisplayable(article: Array<Article> | Article, subfix?: (article: Article) => any): Array<ArticleDisplayable> | ArticleDisplayable {
+  public toDisplayable(article: Array<Article> | Article, subfix?: (article: ArticleDisplayable) => void): Array<ArticleDisplayable> | ArticleDisplayable {
     const articles = (Array.isArray(article) ? article : [ article ]) as Array<ArticleDisplayable>;
 
     for (const article of articles) {
       article.link = `/${ article.category }/${ article.title }`;
       article.modifyLink = `/write/${ article.title }`;
       article.title = this.decodeTitle(article.title);
-      this.setThumbnailImagePathAsync(article);
+      article.thumbnailImagePromise = this.setThumbnailImagePathAsync(article);
       if (subfix) subfix(article);
     }
 

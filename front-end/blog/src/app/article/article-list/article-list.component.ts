@@ -145,6 +145,11 @@ export class ArticleListComponent implements OnInit, OnDestroy {
           if (!article.author) article.author = {}
           article.author.profileImagePath = this.getProfileImagePath(article.author);
           article.author.nickname = this.getAuthorName(article.author);
+
+          if (article.thumbnailImagePromise) article.thumbnailImagePromise.then(() => {
+            delete article.thumbnailImagePromise;
+            this.changeDetector.markForCheck();
+          });
         })
       );
       this.total = totalCount;
