@@ -1,5 +1,5 @@
 /** Native Modules */
-import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Renderer2, OnDestroy, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
@@ -33,7 +33,8 @@ import { settle } from 'src/app/animations/list-settle.animation';
   styleUrls: ['./article-list.component.scss'],
   animations: [
     trigger('settle', settle)
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticleListComponent implements OnInit, OnDestroy {
 
@@ -64,7 +65,8 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private stickyBar: StickyBarService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private changeDetector: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -122,6 +124,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   private async loadArticleList(): Promise<void> {
     const { category, search } = this.params;
     this.loading = true;
+    this.changeDetector.markForCheck();
 
     const criteria: ArticleSearchOption = {
       skip: this.currentIndex++ * this.articlePerLoad,
@@ -154,6 +157,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     }
 
     this.loading = false;
+    this.changeDetector.markForCheck();
   }
 
   private setScrollBehavior(): void {

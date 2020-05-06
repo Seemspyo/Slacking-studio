@@ -4,7 +4,7 @@
         <a class="list-write" routerLink="/write">Write post</a>
     </div>
 
-    <div class="list-list" [attr.count]="articleList.length">
+    <div class="list-list">
 
         <ng-container *ngFor="let article of articleList">
             <div class="list-item" [class.private-article]="!article.status" @settle>
